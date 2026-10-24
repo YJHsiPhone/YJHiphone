@@ -853,7 +853,7 @@ const CONFIG = {
     mom: { noAnswer: true },
     /* 세븐틴 전원우: 밴드부 "형도 어디 가지 말고 기다려" 이후에만 받음. 기본 2.4초 */
     c5: {
-      needEv: "112", abrupt: true,
+      needEv: "112", abrupt: true, onceOnly: true,
       start: [
         { them: "어 정한이.", ms: 2400 },
         { them: "승관이 없어졌다며.", ms: 2400 },
@@ -2109,7 +2109,8 @@ function startCall(id, number) {
   if (!c) { later(() => { setStat("없는 번호입니다"); later(() => endCall("them"), 1800); }, 2000); return; }
   call.ring = startRingback();
   // needEv: 정해진 이벤트가 끝난 뒤에만 받음 (그 전엔 응답 없음)
-  if (script && script.needEv && !(S.evFinished || {})[script.needEv]) {
+  // onceOnly: 끝까지 한 번 통화한 뒤로는 받지 않음
+  if (script && ((script.needEv && !(S.evFinished || {})[script.needEv]) || (script.onceOnly && (S.callDone || {})[id]))) {
     later(() => { stopRing(); setStat("응답 없음"); later(() => endCall("them"), 1500); }, 5500);
     call.noAnswer = true; return;
   }
