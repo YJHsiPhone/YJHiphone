@@ -1361,9 +1361,9 @@ const CONFIG = {
       ending: { no: 4, title: "실패한 만찬", img: "media/ending4.jpg", line: "배고팠는데, 문도 안 열어주고..." }
     }
   },
-  /* D루트: 잠금 해제 뒤 2분 동안 아래를 하나도 안 하면 승관이에게서 전화 → 엔딩 6
+  /* D루트: 잠금 해제 뒤 6분 동안 아래를 하나도 안 하면 승관이에게서 전화 → 엔딩 6
      (단체방 이벤트 시작 / 지수에게 전화 / 112에 전화 / 나의 찾기 승관 에어팟 확인 / 블로그 글 열람) */
-  routeD: { wait: 120000 },
+  routeD: { wait: 360000 },
   routeScenesD: {
     call: {
       delay: 0, caller: "c10",
@@ -1908,7 +1908,8 @@ const WARN_SVG = '<svg viewBox="0 0 40 40" width="100%" height="100%"><path d="M
 const KEY = "phone-sim-v2";
 
 let S;
-try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+// 새로고침하면 무조건 처음부터 새로 시작 (저장된 진행 상황을 지움)
+try { localStorage.removeItem(KEY); } catch (e) {}
 if (!S || !S.threads) S = { threads: clone(CONFIG.threads), notes: clone(CONFIG.notes), recents: clone(CONFIG.recents) };
 try {
 if (S && !S.momCallsCleared) { S.recents = (S.recents || []).filter(r => r.id !== "mom"); S.momCallsCleared = true; }
@@ -2071,7 +2072,7 @@ function tryUnlock() {
 }
 function unlock() {
   locked = false; lock.classList.add("gone");
-  if (S && !S.dAt) { S.dAt = Date.now(); save(); }   // D루트 2분 타이머 시작 (처음 잠금 해제)
+  if (S && !S.dAt) { S.dAt = Date.now(); save(); }   // D루트 6분 타이머 시작 (처음 잠금 해제)
   try { renderHome(); } catch (e) { console.error(e); }
   setTimeout(() => { const p = lock.querySelector(".passpad"); if (p) p.remove(); if (!locked) setP(0); }, 420);
 }
@@ -3397,7 +3398,7 @@ function routeTimerPause() { const T = S.routeT; if (!T || T.at == null) return;
 function routeTimerResume() { const T = S.routeT; if (!T || T.at != null) return; T.at = Date.now(); save(); }
 function routeCheck() {
   if ((S.routeA || {}).shown || S.ending) return;
-  // D루트: 잠금 해제 뒤 2분 동안 아무 조건도 건드리지 않았으면 승관이에게서 전화
+  // D루트: 잠금 해제 뒤 6분 동안 아무 조건도 건드리지 않았으면 승관이에게서 전화
   const BF = S.bFlags || {};
   if (BF.blog || BF.blog2 || BF.find) S.dFail = true;
   if (S.dAt && !S.dFail && !call && Date.now() - S.dAt >= ((CONFIG.routeD || {}).wait || 120000)) {
