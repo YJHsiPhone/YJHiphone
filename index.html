@@ -38,11 +38,15 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .screen.dark-ui .homebar::after{background:#000}
 
 /* wallpaper */
+/* 기본 배경화면 (되돌릴 때 아래 .wall 줄을 이걸로 바꾸면 됨)
 .wall{background:
   radial-gradient(90% 60% at 20% 10%,#ff9b6a 0%,transparent 60%),
   radial-gradient(80% 60% at 90% 30%,#e0567a 0%,transparent 60%),
   radial-gradient(120% 80% at 50% 100%,#14324a 0%,transparent 70%),
   linear-gradient(180deg,#5d2e57,#1a2a44)}
+*/
+.wall{background:linear-gradient(180deg,rgba(0,0,0,.32) 0%,rgba(0,0,0,.12) 30%,transparent 50%,transparent 82%,rgba(0,0,0,.25) 100%),#2a3a55 url("media/wall3.jpg") center/cover no-repeat}
+.wall.lock{text-shadow:0 1px 6px rgba(0,0,0,.35)}
 
 /* lock */
 @property --p{syntax:"<number>";inherits:true;initial-value:0}
@@ -92,7 +96,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .home{padding:70px 22px 0;display:flex;flex-direction:column}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px 0;justify-items:center}
 .appbtn{display:flex;flex-direction:column;align-items:center;gap:6px;width:76px}
-.appbtn span{font-size:12px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35);white-space:nowrap}
+.appbtn span{font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.55);white-space:nowrap}
 .icon{width:62px;height:62px;border-radius:15px;display:grid;place-items:center;position:relative;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.18);transition:transform .15s}
 .appbtn:active .icon{transform:scale(.9)}
 .badge{position:absolute;top:-5px;right:-5px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--red);color:#fff;font-size:13px;font-weight:600;display:grid;place-items:center;z-index:2}
@@ -211,6 +215,14 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .cline .who{font-size:13px;color:rgba(255,255,255,.6)}
 .cline .txt{font-size:18px;line-height:1.45;word-break:keep-all}
 .cline.small .txt{font-size:13px;opacity:.75}
+.cline.sfx .txt{color:rgba(255,255,255,.5)}
+.cline.red .txt{color:#ff2d2d}
+.cline.glitch .txt{font-weight:800;letter-spacing:1px;text-shadow:2px 0 rgba(0,255,255,.55),-2px 0 rgba(255,0,80,.7);animation:glitchJ .18s steps(2) infinite}
+@keyframes glitchJ{0%{transform:translate(0,0) skewX(0)}25%{transform:translate(-2px,1px) skewX(-8deg)}50%{transform:translate(2px,-1px) skewX(6deg);clip-path:inset(10% 0 30% 0)}75%{transform:translate(-1px,0) skewX(2deg);clip-path:inset(40% 0 5% 0)}100%{transform:none}}
+.cline.flicker .txt{animation:lineFlicker 1.1s steps(1) infinite}
+@keyframes lineFlicker{0%{opacity:.5}12%{opacity:.08}20%{opacity:.4}34%{opacity:0}46%{opacity:.35}58%{opacity:.05}70%{opacity:.3}84%{opacity:0}}
+.cline.vanish .txt{animation:lineVanish 2s ease-in forwards}
+@keyframes lineVanish{0%{opacity:.6;filter:blur(0)}100%{opacity:0;filter:blur(3px)}}
 .cline.small .who{font-size:11px}
 @keyframes clin{from{opacity:0;transform:translateY(6px)}}
 .dlg .hist{display:flex;flex-direction:column;gap:6px;overflow-y:auto;mask-image:linear-gradient(180deg,transparent,#000 40%);-webkit-mask-image:linear-gradient(180deg,transparent,#000 40%)}
@@ -395,6 +407,12 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .bb-date{align-self:center;background:rgba(22,32,29,.12);color:#2d3a36;font-size:12px;border-radius:12px;padding:4px 12px;margin:12px 0 8px}
 .bbr{display:flex;gap:8px;align-items:flex-start}
 .bbr.new{animation:pop .25s ease-out}
+.bbimg{display:block;padding:0;border-radius:14px;overflow:hidden;width:190px;flex:none;background:#222}
+.bbimg img{display:block;width:100%;max-width:none;height:auto}
+.bbview{position:absolute;inset:0;z-index:30;background:#000;display:grid;place-items:center;animation:fadeIn .2s}
+.bbview img{max-width:100%;max-height:100%;object-fit:contain}
+.bbview.out{opacity:0;transition:opacity .2s}
+@keyframes fadeIn{from{opacity:0}}
 .bbb.mention{color:#4aa3ff;font-weight:600}
 .bbr.me.new,.bub.me.new{animation:sendUp .32s cubic-bezier(.2,.8,.2,1)}
 @keyframes sendUp{from{opacity:0;transform:translateY(22px)}}
@@ -486,6 +504,11 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .ln-cnt>span{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:600}
 .ln-act{display:flex;gap:14px;padding:10px 14px 4px;align-items:center}
 .ln-act .sv{margin-left:auto}
+.ln-like em{font-style:normal}
+.ln-like{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ln-like.on svg{fill:#ff3040;stroke:#ff3040}
+.ln-like.pop svg{animation:likePop .35s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes likePop{0%{transform:scale(.6)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
 .ln-post p{margin:3px 14px;font-size:14px;line-height:1.45}
 .ln-post p.d{color:#8e8e8e;font-size:12px}
 .ln-tabs{position:absolute;left:14px;right:14px;bottom:30px;z-index:4;display:flex;justify-content:space-around;align-items:center;height:58px;border-radius:30px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 4px 20px rgba(0,0,0,.15);color:#111}
@@ -544,6 +567,167 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .web-pill{flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:#f7f7f8;border-radius:28px;padding:0 16px 0 14px;height:54px;box-shadow:0 2px 14px rgba(0,0,0,.08);color:#333}
 .web-pill input{flex:1;min-width:0;border:0;background:transparent;font-size:17px;outline:none;caret-color:#3b9cff;color:#111}
 .web-pill input::placeholder{color:#8e8e93}
+.webpane{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;padding-top:54px;background:#fff;box-shadow:-10px 0 28px rgba(0,0,0,.12);animation:pushin .34s cubic-bezier(.2,.8,.2,1)}
+.webpane.out{animation:pushout .26s ease-in forwards}
+.wr{padding:14px 0 0;background:#fff}
+.crack{position:absolute;inset:0;z-index:900;pointer-events:none;animation:crackIn .12s ease-out}
+.crack img{width:100%;height:100%;display:block;object-fit:fill;max-width:none;opacity:.5}
+@keyframes crackIn{from{opacity:0}}
+.screen.shake-knock{animation:knockShake .32s ease-out}
+@keyframes knockShake{0%,100%{transform:none}10%{transform:translate(4px,0)}25%{transform:translate(-4px,1px)}40%{transform:translate(3px,-1px)}55%{transform:translate(-2px,0)}70%{transform:translate(1px,0)}}
+.screen.shake-drop{animation:dropShake .38s cubic-bezier(.3,.7,.4,1)}
+@keyframes dropShake{0%{transform:translate(0,0)}15%{transform:translate(-7px,9px) rotate(-1deg)}30%{transform:translate(6px,-6px) rotate(.8deg)}45%{transform:translate(-4px,4px)}60%{transform:translate(3px,-2px)}80%{transform:translate(-1px,1px)}100%{transform:none}}
+.route-box p{line-height:1.6}
+.ending{position:absolute;inset:0;z-index:400;background:#000;color:#fff;display:grid;place-items:center;animation:fadeIn 1.2s ease}
+.end-in{width:84%;text-align:center}
+/* ENDING → 제목 → 동그라미 → 사진 → 멘트 → 다시하기 순서로 0.3초 간격, 살짝 올라오며 나타남 */
+.end-in>*{animation:endUp 2.4s cubic-bezier(.2,.5,.25,1) both;animation-play-state:paused}
+.end-in.go>*{animation-play-state:running}
+.end-in>:nth-child(1){animation-delay:1.2s}.end-in>:nth-child(2){animation-delay:2.2s}.end-in>:nth-child(3){animation-delay:3.2s}
+.end-in>:nth-child(4){animation-delay:4.2s}.end-in>:nth-child(5){animation-delay:5.4s}.end-in>:nth-child(6){animation-delay:6.8s}
+@keyframes endUp{from{opacity:0;transform:translateY(18px)}}
+.end-no{font-size:13px;letter-spacing:4px;font-weight:600;color:var(--ec,#fff)}
+.end-dots{display:flex;justify-content:center;gap:8px;margin:-4px 0 18px}
+.end-dots i{width:8px;height:8px;border-radius:50%;border:1.3px solid rgba(255,255,255,.45);box-sizing:border-box}
+.end-dots i.on{background:var(--ec,#fff);border-color:var(--ec,#fff)}
+.end-in h2{margin:10px 0 22px;font-size:26px;font-weight:700}
+.end-in img{width:100%;border-radius:6px;display:block}
+.end-in p{margin:20px 0 34px;font-size:16px;line-height:1.6;opacity:.9}
+.end-in button{padding:12px 34px;border-radius:24px;border:1px solid rgba(255,255,255,.5);color:#fff;font-size:15px;background:transparent}
+.call.forced .endrow{justify-content:center}
+.route-ov{position:absolute;inset:0;z-index:200;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;place-items:center;animation:fadeIn .6s ease}
+.route-ov.out{opacity:0;transition:opacity .4s}
+.route-box{width:78%;display:flex;flex-direction:column;align-items:stretch;gap:14px;text-align:center;color:#fff}
+.route-box p{margin:0 0 18px;font-size:18px;font-weight:600;letter-spacing:0;white-space:nowrap}
+.route-box button{padding:16px;border-radius:16px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);color:#fff;font-size:17px;font-weight:600}
+.route-box button:active{background:rgba(255,255,255,.28)}
+.ic-find{background:#fff}
+.app.fm{background:#f3f0e9;padding-top:0}
+.fm-wrap{position:absolute;inset:0;overflow:hidden}
+.fm-mapbox{position:absolute;aspect-ratio:900/1300;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.fm-map{width:100%;height:100%;display:block}
+.fm-me{position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#0a84ff;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.fm-me::before{content:"";position:absolute;inset:-16px;border-radius:50%;background:rgba(10,132,255,.22);animation:fmPulse 2.2s ease-out infinite}
+@keyframes fmPulse{from{transform:scale(.4);opacity:1}to{transform:scale(1.2);opacity:0}}
+.fm-pin{position:absolute;width:54px;height:54px;margin:-74px 0 0 -27px;border-radius:50%;background:#fff;padding:4px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .2s}
+.fm-pin::after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-7px;border:7px solid transparent;border-top-color:#fff;border-bottom:0}
+.fm-pin img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.fm-pin.sel{transform:scale(1.12)}
+.fm-ctl{position:absolute;right:14px;top:60px;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;padding:14px 12px;border-radius:26px;background:rgba(255,255,255,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 2px 12px rgba(0,0,0,.12);color:#111}
+.fm-ctl i{width:22px;height:1px;background:#ddd}
+.fm-sheet{position:absolute;left:8px;right:8px;bottom:8px;z-index:3;height:46%;border-radius:34px;background:linear-gradient(160deg,rgba(236,247,232,.94),rgba(222,240,236,.94));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 -4px 24px rgba(0,0,0,.12);display:flex;flex-direction:column;padding:8px 0 0;overflow:hidden}
+.fm-grab{width:40px;height:5px;border-radius:3px;background:rgba(0,0,0,.18);margin:0 auto 6px}
+.fm-h{display:flex;justify-content:space-between;align-items:center;padding:4px 18px 6px}
+.fm-h h2{margin:0;font-size:30px;font-weight:800}
+.fm-plus{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.8);display:grid;place-items:center;font-size:28px;font-weight:300;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.fm-list{flex:1;overflow-y:auto;padding:0 0 90px}
+.fm-row{display:flex;align-items:center;gap:14px;width:100%;padding:12px 18px;text-align:left;color:#111;position:relative}
+.fm-row+.fm-row::before{content:"";position:absolute;left:78px;right:18px;top:0;height:1px;background:rgba(0,0,0,.08)}
+.fm-row img{width:46px;height:46px;border-radius:50%;object-fit:cover;flex:none;background:#fff}
+.fm-row .grow{flex:1;min-width:0}
+.fm-row b{display:block;font-size:17px;font-weight:600}
+.fm-row small{display:block;color:#7b7f7c;font-size:14px;margin-top:2px}
+.fm-r{color:#7b7f7c;font-size:14px;align-self:flex-start;margin-top:4px;white-space:nowrap}
+.fm-tabs{position:absolute;left:12px;right:12px;bottom:12px;display:flex;justify-content:space-around;padding:8px 6px;border-radius:30px;background:rgba(255,255,255,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 2px 12px rgba(0,0,0,.1)}
+.fm-tabs span{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 16px;border-radius:22px;color:#111}
+.fm-tabs small{font-size:11px;font-weight:600}
+.fm-tabs .on{background:rgba(0,0,0,.06);color:#0a84ff}
+.wr-link{cursor:pointer}
+.blogpane{z-index:6}
+.bp{padding:0 0 20px;background:#fff;color:#222}
+.bp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 18px 12px;border-bottom:1px solid #e5e5e5}
+.bp-logo{font-size:24px;font-weight:800;letter-spacing:-.5px}
+.bp-name{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600;min-width:0}
+.bp-tools{display:flex;gap:16px}
+.bp-top{display:flex;flex-direction:column;align-items:center;text-align:center;padding:26px 18px 22px;margin:0 16px;border-bottom:1px solid #eee}
+.bp-cat{font-size:13px;color:#333;letter-spacing:.3px}
+.bp-top h1{margin:12px 0 18px;font-size:23px;font-weight:500;line-height:1.45}
+.bp-av{width:46px;height:46px;border-radius:50%;background:#f1f2f4;overflow:hidden;box-shadow:0 0 0 1px #e5e5e5}
+.bp-av svg{width:100%;height:100%;display:block}
+.bp-au{display:flex;align-items:center;gap:4px;margin-top:8px;font-size:15px;color:#333}
+.bp-date{font-size:13px;color:#999;margin-top:2px}
+.bp-nb{margin-top:12px;border:1px solid #03c75a;color:#03c75a;font-size:13px;padding:6px 16px}
+.bp-main{padding:20px 22px 0;text-align:center;font-size:16px;line-height:1.75}
+.bp-main p{margin:0}
+.bp-sub{margin-bottom:18px!important}
+.bp-img{width:100%;display:block;margin:0 0 20px;max-width:none}
+.bp-gap{height:20px}
+.bp-cap{margin:-12px 0 4px!important;font-size:13px;color:#999}
+.bp-emo{display:grid;place-items:center;box-shadow:0 0 0 1px #e5e5e5}
+.bp-emo span{font-size:24px;line-height:1;filter:drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff)}
+.bp-cardtop .bp-emo span{font-size:32px}
+.bp-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;justify-content:flex-start}
+.bp-tags span{background:#f2f2f2;border-radius:4px;padding:4px 10px;font-size:14px;color:#555}
+.bp-lk{margin-top:28px;border-top:1px solid #eee;padding-top:6px}
+.bp-likes{display:flex;align-items:center;gap:22px;padding:10px 4px;color:#222}
+.bp-likes b{font-weight:400;font-size:16px}
+.bp-heart{display:grid;color:#222}
+.bp-heart.on svg{fill:#ff4f7b;stroke:#ff4f7b}
+.bp-heart.pop svg{animation:likePop .35s cubic-bezier(.2,.9,.3,1.4)}
+.bp-cnt,.bp-ic{display:flex;align-items:center;gap:6px}
+.bp-cnt{margin-left:-12px}
+.bp-dock{flex:none;background:#fff;border-top:1px solid #eee;padding:0 18px;transition:opacity .15s}
+.bp-dock.hide{display:none}
+.bp-card{margin:22px 16px 0;border:1px solid #e5e5e5;border-radius:18px;padding:18px;text-align:left}
+.bp-cardtop{display:flex;justify-content:space-between;align-items:center}
+.bp-cardtop .bp-av{width:62px;height:62px}
+.bp-nb2{background:#03c75a;color:#fff;font-weight:600;padding:10px 22px;border-radius:8px;font-size:15px}
+.bp-cname{display:flex;align-items:center;gap:6px;margin-top:14px}
+.bp-cname b{font-size:20px}
+.bp-cname span{color:#555;font-size:14px;margin-left:6px}
+.bp-card p{margin:8px 0 0;color:#444;font-size:15px;line-height:1.6}
+.bp-url{color:#666;gap:8px;font-size:15px}
+.bp-more{margin:26px 0 0;padding:22px 18px 0;border-top:8px solid #f4f4f4}
+.bp-more h3{display:flex;align-items:center;gap:6px;margin:0 0 6px;font-size:19px;font-weight:800}
+.bp-more h3 em{font-style:normal;color:#03c75a}
+.bp-more h3 svg{margin-left:auto}
+.bp-mi{display:flex;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid #eee}
+.bp-mi .grow{flex:1;min-width:0}
+.bp-mi b{display:block;font-size:17px;font-weight:600;line-height:1.45}
+.bp-mi span{display:flex;align-items:center;gap:4px;margin-top:6px;color:#666;font-size:14px}
+.bp-mi span svg{margin-left:6px}
+.bp-mth{width:84px;height:84px;border-radius:12px;background:#eceef1;overflow:hidden;flex:none;display:block}
+.bp-mth img{width:100%;height:100%;object-fit:cover;display:block;max-width:none}
+.bp-mi.now{opacity:.4}
+.bp-mi:not(.now){cursor:pointer}
+.bp-h{font-weight:700;font-size:17px;margin-bottom:2px!important}
+.bp-url .ellip{flex:1;min-width:0;color:#333}
+.wr-q{display:flex;align-items:center;gap:12px;margin:0 16px;height:52px;border-radius:26px;background:#f1f3f4;padding:0 18px;color:#5f6368;font-size:18px}
+.wr-q .grow{color:#202124}
+.wr-tabs{display:flex;gap:24px;padding:16px 20px 0;border-bottom:1px solid #e8eaed;font-size:15px;color:#5f6368;white-space:nowrap;overflow:hidden}
+.wr-tabs span{padding-bottom:10px}
+.wr-tabs .on{color:#202124;font-weight:700;border-bottom:3px solid #202124}
+.wr-kp{padding:18px 16px 18px;border-bottom:8px solid #f1f3f4}
+.wr-kh{display:flex;justify-content:space-between;align-items:flex-start}
+.wr-kh h2{margin:0;font-size:28px;font-weight:500;color:#202124}
+.wr-sub{color:#5f6368;font-size:15px;margin-top:4px}
+.wr-share{width:40px;height:40px;border-radius:50%;border:1px solid #dadce0;display:grid;place-items:center;color:#1a73e8}
+.wr-imgs{margin:16px -16px 0 0;display:flex;flex-direction:column;gap:4px;overflow:hidden;border-radius:14px 0 0 14px}
+.wr-imgs>div{display:flex;gap:4px;height:118px}
+.wr-imgs i{flex:1.1;min-width:0;display:block;overflow:hidden}
+.wr-imgs i.w2{flex:1.8}.wr-imgs i.w07{flex:.75}
+.wr-imgs img,.wr-th img{width:100%;height:100%;display:block;object-fit:cover;max-width:none}
+.wr-desc{margin:16px 0 8px;font-size:16px;line-height:1.6;color:#202124}
+.wr-src{font-size:14px;color:#5f6368}.wr-src a{color:#1a0dab}
+.wr-res{padding:18px 16px;border-bottom:8px solid #f1f3f4}
+.wr-site{display:flex;align-items:center;gap:12px}
+.wr-fav{width:34px;height:34px;border-radius:50%;background:#f1f3f4;display:grid;place-items:center;color:#5f6368;flex:none}
+.wr-site .grow{flex:1;min-width:0}
+.wr-faq{padding:18px 16px 8px;border-bottom:8px solid #f1f3f4}
+.wr-faq h3{margin:0 0 6px;font-size:20px;font-weight:500;color:#202124}
+.wr-qa{border-bottom:1px solid #e8eaed}
+.wr-qa:last-child{border-bottom:0}
+.wr-qb{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:16px 0;text-align:left;font-size:16px;color:#202124}
+.wr-qb i{width:36px;height:36px;border-radius:50%;background:#f1f3f4;display:grid;place-items:center;color:#5f6368;flex:none;transition:transform .25s}
+
+.wr-fav-t{color:#fff;font-size:16px;font-weight:800;box-shadow:0 0 0 2px #d3d3d3}
+.wr-site b{display:block;font-size:15px;font-weight:500;color:#202124}
+.wr-site small{font-size:13px;color:#5f6368}
+.wr-more{color:#5f6368}
+.wr-title{display:block;margin:12px 0 6px;font-size:21px;color:#1a0dab;line-height:1.35}
+.wr-body{display:flex;gap:12px;align-items:flex-start}
+.wr-body p{margin:0;flex:1;font-size:14.5px;line-height:1.6;color:#4d5156}
+.wr-th{width:96px;height:96px;border-radius:12px;overflow:hidden;flex:none;display:block}
 .web-x{width:54px;height:54px;border-radius:50%;background:#f7f7f8;box-shadow:0 2px 14px rgba(0,0,0,.08);display:grid;place-items:center;color:#222;flex:none}
 
 /* notes */
@@ -579,6 +763,18 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .nt-ck.done .tx{color:#8a8a8f;text-decoration:line-through}
 .nt-p{margin:0 0 6px;font-size:18px;line-height:1.6}
 .nt-gap{height:12px}
+.nt-done{color:#e0a100;font-size:17px;font-weight:600;padding:4px 2px}
+.nt-chk{display:grid;place-items:center;color:inherit}
+.nt-ed{cursor:text}
+.ne-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:6px}
+.ne-row textarea{flex:1;min-width:0;border:0;outline:none;resize:none;background:transparent;font:inherit;font-size:18px;line-height:1.6;padding:0;color:#111;overflow:hidden}
+.ne-row.ttl textarea{font-size:28px;font-weight:800;line-height:1.3;margin:6px 0 8px}
+.ne-row.ttl textarea::placeholder{color:#c7c7cc}
+.ne-row .box{width:24px;height:24px;border-radius:6px;border:2px solid #c7c7cc;flex:none;margin-top:4px;display:grid;place-items:center;padding:0;background:transparent;transition:background .15s,border-color .15s}
+.ne-row .box svg{opacity:0;transform:scale(.5);transition:opacity .15s,transform .2s}
+.ne-row.done .box{background:#ffb800;border-color:#ffb800}
+.ne-row.done .box svg{opacity:1;transform:none}
+.ne-row.done textarea{color:#8a8a8f;text-decoration:line-through}
 
 /* clock */
 .app.clk{background:#000;color:#fff}
@@ -829,54 +1025,68 @@ const CONFIG = {
       /* 이 통화를 끝까지 들은 뒤로는 전화를 받지 않고 이 문자를 보냄 */
       afterDone: { sms: "잠시만 정한아", ringMs: 4000, smsDelay: 1500 },
       start: [
-        { them: "어, 정한아. 왜?", ms: 2500 },
-        { me: "너 혹시 승관이 봤어?", ms: 2500 },
-        { them: "아니, 못 봤는데.", ms: 2500 },
-        { them: "무슨 일 있어?", ms: 2500 },
-        { me: "승관이가 사라져서...", ms: 2500 },
-        { them: "뭐라고?", ms: 2500 },
-        { me: "그니까, 어제 좀 싸웠거든.", ms: 1500 },
-        { me: "내가 너무 말을 심하게 했던 것 같아.", ms: 1500 },
-        { me: "그래서 승관이가 밤에 승철이네 집으로 갔는데.", ms: 1500 },
-        { me: "승철이가 아침에 보냈는데.", ms: 1500 },
-        { me: "아직도 안 와서, 막 밖엔 이상한게 떠다니고,", ms: 1500 },
-        { me: "그래서 찾으러 가려고 했는데...", ms: 1500 },
-        { them: "정한아, 진정해 봐.", ms: 2500 },
-        { them: "너 괜찮아?", ms: 2500 },
-        { me: "......", ms: 2500 },
-        { them: "정한아.", ms: 2500 },
-        { me: "미안, 지금 좀 무서워서.", ms: 2500 },
-        { me: "일단 알겠어, 혹시나 승관이 보면 얘기해 줘.", ms: 2500 },
-        { them: "정한아", ms: 1500 }
+        { them: "어, 정한아. 왜?", ms: 2800 },
+        { me: "너 혹시 승관이 봤어?", ms: 2800 },
+        { them: "아니, 못 봤는데.", ms: 2800 },
+        { them: "무슨 일 있어?", ms: 2800 },
+        { me: "승관이가 사라져서...", ms: 2800 },
+        { them: "뭐라고?", ms: 2800 },
+        { me: "그니까, 어제 좀 싸웠거든.", ms: 1800 },
+        { me: "내가 너무 말을 심하게 했던 것 같아.", ms: 1800 },
+        { me: "그래서 승관이가 밤에 승철이네 집으로 갔는데.", ms: 1800 },
+        { me: "승철이가 아침에 보냈는데.", ms: 1800 },
+        { me: "아직도 안 와서, 막 밖엔 이상한게 떠다니고,", ms: 1800 },
+        { me: "그래서 찾으러 가려고 했는데...", ms: 1800 },
+        { them: "정한아, 진정해 봐.", ms: 2800 },
+        { them: "너 괜찮아?", ms: 2800 },
+        { me: "......", ms: 2800 },
+        { them: "정한아.", ms: 2800 },
+        { me: "미안, 지금 좀 무서워서.", ms: 2800 },
+        { me: "일단 알겠어, 혹시나 승관이 보면 얘기해 줘.", ms: 2800 },
+        { them: "정한아", ms: 1800 }
       ]
     },
     mom: { noAnswer: true },
     /* 세븐틴 전원우: 밴드부 "형도 어디 가지 말고 기다려" 이후에만 받음. 기본 2.4초 */
     c5: {
       needEv: "112", abrupt: true, onceOnly: true,
+      /* 첫 통화를 끝까지 한 뒤 다시 걸면 이 대본 (이것도 끝까지 하면 그 뒤로는 응답 없음) */
+      nexts: [[
+        { them: "응?", ms: 2700 },
+        { me: "원우야, 그거 무슨 의미야?", ms: 2700 },
+        { them: "뭐가?", ms: 2700 },
+        { me: "마음의 준비 하라고 한 거랑.", ms: 2700 },
+        { me: "명호 불렀던 거.", ms: 2700 },
+        { me: "뭐 찾은거지?", ms: 2700 },
+        { them: "......", ms: 2700 },
+        { me: "원우야, 제발.", ms: 2700 },
+        { me: "안 좋은 소식이라도 괜찮으니까.", ms: 2700 },
+        { them: "......", ms: 2700 },
+        { them: "카톡으로 보내줄게.", ms: 2700 }
+      ]],
       start: [
-        { them: "어 정한이.", ms: 2400 },
-        { them: "승관이 없어졌다며.", ms: 2400 },
-        { me: "어, 혹시나 뭐라도 찾은 거 있나 해서.", ms: 2400 },
-        { them: "찾아보고 있긴한데, 아직은.", ms: 2400 },
-        { them: "그래도 무소식이 희소식이니까.", ms: 2400 },
-        { me: "...", ms: 2400 },
-        { them: "명호도 지금 여기저기 찾고 있더라.", ms: 2400 },
-        { them: "애들끼리 막 전화도 하고.", ms: 2400 },
-        { them: "다들 힘내고 있으니까.", ms: 2400 },
-        { me: "응, 고마워.", ms: 2400 },
-        { them: "정한이.", ms: 2400 },
-        { me: "응?", ms: 2400 },
-        { them: "그래도 혹시 모르니까 마음의 준비 정도는......", ms: 1500 },
-        { them: "에이, 아니다.", ms: 2000 },
-        { them: "열심히 찾아볼게, 몸 관리 잘 하고.", ms: 2400 },
-        { me: "응.", ms: 2400 },
+        { them: "어 정한이.", ms: 2700 },
+        { them: "승관이 없어졌다며.", ms: 2700 },
+        { me: "어, 혹시나 뭐라도 찾은 거 있나 해서.", ms: 2700 },
+        { them: "찾아보고 있긴한데, 아직은.", ms: 2700 },
+        { them: "그래도 무소식이 희소식이니까.", ms: 2700 },
+        { me: "...", ms: 2700 },
+        { them: "명호도 지금 여기저기 찾고 있더라.", ms: 2700 },
+        { them: "애들끼리 막 전화도 하고.", ms: 2700 },
+        { them: "다들 힘내고 있으니까.", ms: 2700 },
+        { me: "응, 고마워.", ms: 2700 },
+        { them: "정한이.", ms: 2700 },
+        { me: "응?", ms: 2700 },
+        { them: "그래도 혹시 모르니까 마음의 준비 정도는......", ms: 1800 },
+        { them: "에이, 아니다.", ms: 2300 },
+        { them: "열심히 찾아볼게, 몸 관리 잘 하고.", ms: 2700 },
+        { me: "응.", ms: 2700 },
         { pause: 8000 },
-        { them: "명호야, 이리 와 봐.", ms: 2200, small: true },
-        { them: "응?", who: "서명호", ms: 1400, small: true },
-        { them: "이거, 좀.", ms: 1800, small: true },
-        { them: "어, 안 끊었네.", ms: 2400 },
-        { them: "끊을게, 정한이.", ms: 1800 }
+        { them: "명호야, 이리 와 봐.", ms: 3000, small: true },
+        { them: "응?", who: "서명호", ms: 2200, small: true },
+        { them: "이거, 좀.", ms: 2600, small: true },
+        { them: "어, 안 끊었네.", ms: 2700 },
+        { them: "끊을게, 정한이.", ms: 2100 }
       ]
     },
     /* 연락처에 없는 번호는 번호 그대로 키로 씀 (label: 통화 화면에 나오는 이름) */
@@ -896,7 +1106,7 @@ const CONFIG = {
         { them: "다른 신고 사항 있으십니까?" },
         { me: "..." },
         { me: "아니요." },
-        { me: "그런데 왜 말을", ms: 1300 }
+        { me: "그런데 왜 말을", ms: 1500 }
       ],
       /* 두 번째(그 이후도) 연결된 통화부터는 이 대본 */
       again: [
@@ -907,7 +1117,7 @@ const CONFIG = {
         { them: "아... 진짜..." },
         { them: "아까 말씀 드렸잖아요, 신고자분." },
         { them: "지금 실종 신고가 감당이 안 될 만큼 많이 오는데다가, 어차피 풍선한테 먹히면 못 찾는다고요." },
-        { them: "또 같은 이유로 신고하시면 끊겠습니다.", ms: 2800 }
+        { them: "또 같은 이유로 신고하시면 끊겠습니다.", ms: 3100 }
       ]
     }
   },
@@ -1033,7 +1243,8 @@ const CONFIG = {
   /* 번호 통화(112)를 처음 끝까지 들은 뒤 3초 후 밴드부에 오는 메시지 (중간에 끊으면 안 옴) */
   callEvents: {
     /* needNext: 밴드부에서 지훈의 "그럼 일단 경찰 신고부터 해 봐"가 나온 뒤에 건 통화일 때만 / thenMute: 그 뒤 내 메시지는 답장 없이 읽음 숫자 7로 고정 */
-    "112": { room: "b-band", delay: 3000, needNext: "b-band#0", thenMute: 7, then: "band-sm", thenDelay: 3000, lines: [
+    /* timer: 민규 마지막 메시지 뒤 이 시간 안에 원우에게 전화하지 않으면 선택지 (CONFIG.route) */
+    "112": { room: "b-band", delay: 3000, needNext: "b-band#0", thenMute: 7, then: "band-sm", thenDelay: 3000, timer: 60000, lines: [
       { who: "세븐틴 이지훈", text: "안 된대?", cnt: 10, dec: 1 },
       { who: "세븐틴 김민규", text: "뭐야 안 되는게 어딨어", cnt: 9, dec: 1 },
       { who: "세븐틴 김민규", text: "@all", cls: "mention", all: 1, cnt: 1 },
@@ -1044,7 +1255,9 @@ const CONFIG = {
   /* 통화가 끝나면 도착하는 버블 (통화를 실제로 연결했을 때만, 한 번) */
   afterCall: {
     c2: { room: "b-js", gap: 2000, msgs: ["정한아", "나도 같이 알아볼 테니까 너무 걱정하지 말고", "승관이가 무슨 옷 입고 있는지 알아?"],
-          followUp: ["알겠어", "혹시나해서 말하는데 밖에 나가진 마"],
+          /* 정상 답을 보내면 내 쪽에서 자동으로 이어서 보내는 말 */
+          meAuto: "내 기억이 틀렸을 수도 있어",
+          followUp: ["일단 알겠어", "가방 들고 나간거지?", "그럼 귤 키링 달려있을테니까 그걸로 찾아보자", "혹시나해서 말하는데 밖에 나가진 마"],
           /* 인상착의 대신 장난스러운 말이 들어오면 (띄어쓰기 무시) 이 답만 하고 다시 기다림 */
           blockKeys: ["비키니", "똥", "좆", "니얼굴", "병신", "개새끼", "팬티", "김기수", "은재콩", "원더재빈", "곽튜브", "류라이", "닥터후", "여리하찌폭닥", "돌핀팬츠", "브라", "오줌", "생리", "크롭티", "애미", "느금", "애비", "자지", "보지", "후장", "유두", "젖꼭지", "겨드랑이"],
           blockReply: "장난치지 마",
@@ -1054,12 +1267,358 @@ const CONFIG = {
     "band-sc": { room: "b-sc", gap: 2000, msgs: ["윤정한", "승관이 아직 못 찾았지"],
           followUp: ["어제 옷차림 봤으니까", "나도 최대한 인터넷 뒤져볼게", "부승관 원래", "지각하고 미안미안 하면서 뛰어오는거 알지", "그니까 너무 초조해하지 마", "갑자기 현관 벌컥 열고 돌아올 수도 있다", "알았지?"] },
     /* 밴드부 "형도 어디 가지 말고 기다려" 뒤 이석민 개인 버블. 아무 답장이나 하면 followUp, 그 뒤로는 읽지 않음 */
+    /* 원우와 두 번째 통화를 끝까지 마친 뒤 원우 버블 (그 뒤로는 읽지 않음) */
+    "wu-2": { call: "c5", stage: 2, room: "b-wu", delay: 2000, gap: 2200,
+          msgs: [{ img: "media/wonwoo1.jpg" }, "인터넷 뒤지다가 찾은건데", "승관이가 아닐 수도 있어서 말 안 했어.", "속이려던 건 아니야. 미안.", "그냥 차림이 비슷한 다른 사람일수도 있으니까", "좀 더 찾아보자."] },
     "band-sm": { room: "b-sm", gap: 2000, msgs: ["정한이 형", "괜찮아?"],
           followUp: ["나도 승관이 걱정 너무 많이 되는데", "형은 어떻겠어", "형 지금 정신 없을텐데 물이라도 마시고", "너무 불안해 하지 마", "승관이 반드시 찾을 수 있을거야!!!", "내가 아는 승관이라면 어디 잘 숨어 있을 걸", "그니까 형도 기운 내"] }
   },
 
   /* 인터넷 최근 검색 기본값 (오래된 것부터 순서대로, 화면에는 최신이 맨 위) */
-  searches: ["행운의 편지", "스모어 쿠키", "스모어 쿠키 만들기", "홈베이킹 배탈", "지하철 배차간격", "동생이랑 화해하는 법", "사춘기 싸움", "17살 달래는 법", "진심어린사과", "불안 잠 안 옴", "차단 확인 법", "동생 가출", "가족 실ㅈ", "가족실종", "캐모매ㅏ일", "캐모마일 풍선", "꽃 풍선 납치"],
+  /* 선택지 (A루트): 시간 안에 원우에게 전화하지 않으면 뜸. who: 타이머를 멈추는 연락처, after1: 첫 통화 끝난 뒤 시간 */
+  route: { who: "c5", after1: 20000, title: "더 이상 기다리기 힘들다.\n승관이를...", options: [{ key: "go", text: "찾으러 나간다" }, { key: "wait", text: "집에서 기다린다" }] },
+  /* B루트: 원우 콜백(두 번째 통화 끝까지) + 블로그 "현재 캐모마일 사태 요약" 열람 + 나의 찾기에서 승관 AirPods 확인 (순서 상관없음)
+     waitMsgs: 콜백 뒤 원우 메시지가 다 올 때까지 기다리는 시간 / limit: 콜백 뒤 이 시간 안에 나머지를 못 하면 A루트 */
+  /* C루트: B루트 조건 + 블로그 "현재 사태 행동 요령"까지 열람 */
+  routeC: { title: "승관이가 이미 먹혔을지도 모른다.\n승관이를..." },
+  routeScenesC: {
+    /* 찾으러 나간다: 명호 전화 → 엔딩 5 */
+    go: {
+      delay: 1000, caller: "c7",
+      script: [
+        { me: "여보세요?", ms: 2600 },
+        { them: "정한이 형, 지금 집이야?", ms: 2600 },
+        { me: "어, 그렇긴 한데...", ms: 2600 },
+        { them: "나갈거야?", ms: 2600 },
+        { me: "응, 지금 승관이 어딨는지 알 것 같아서.", ms: 2600 },
+        { them: "형 잘 생각해야 돼.", ms: 2600 },
+        { them: "형 나갔다가 그 꽃 만나면 어떻게 할건데?", ms: 2600 },
+        { me: "어차피 풍선이잖아.", ms: 2600 },
+        { me: "가위랑, 칼이랑... 다 챙겨서 가려고.", ms: 2600 },
+        { me: "이대로 기다렸다간 승관이 못 찾아.", ms: 2600 },
+        { them: "...", ms: 2600 },
+        { me: "(현관문이 열렸다 닫히는 소리)", sfx: true, ms: 2600 },
+        { them: "형 진짜 조심해야 돼.", ms: 2600 },
+        { me: "응, 조심할게.", ms: 2600 },
+        { me: "(희미한 발소리)", sfx: true, ms: 2600 },
+        { them: "형, 주변에 뭐 없어?", ms: 2600 },
+        { me: "글쎄... 지금...", ms: 1800 },
+        { me: "...! 승관아!", ms: 2600 },
+        { them: "혀엉...!!", who: "부승관", sfx: true, small: true, ms: 2600 },
+        { them: "(뛰어오는 소리)", who: "부승관", sfx: true, ms: 2600 },
+        { them: "혀엉, 나 진짜 죽는줄 알았는데...!", who: "부승관", ms: 1500 },
+        { me: "승관아! 뒤에!", ms: 1800 },
+        { me: "(무언가 찔리는 소리)", sfx: true, ms: 2600 },
+        { me: "(바람이 빠지는 소리)", sfx: true, ms: 3100 },
+        { them: "형? 괜찮아?", ms: 2600 },
+        { me: "...됐다.", ms: 2600 },
+        { them: "혀엉!!", who: "부승관", ms: 2600 },
+        { them: "(와락 끌어안는 소리)", who: "부승관", sfx: true, ms: 2600 },
+        { them: "혀엉, 나 진짜... 너무 무서웠는데...", who: "부승관", ms: 2600 },
+        { them: "이씨, 진짜...", who: "부승관", ms: 2600 },
+        { me: "승관아, 괜찮아?", ms: 2600 },
+        { me: "다친 곳은 없어?", ms: 2600 },
+        { them: "으응...", who: "부승관", ms: 2600 },
+        { them: "형, 일단 빨리 집에 가.", ms: 2600 },
+        { me: "응, 집에 가자 승관아.", ms: 2600 },
+        { me: "이제 다 괜찮아.", ms: 2600 }
+      ],
+      ending: { no: 5, title: "보고싶었어", img: "media/ending5.jpg", line: "정말 너무너무 보고 싶었어." }
+    },
+    /* 집에서 기다린다: 찬이 전화 → 엔딩 4 */
+    wait: {
+      delay: 1000, caller: "c12",
+      script: [
+        { them: "여보세요, 정한이 형?", ms: 2600 },
+        { me: "어, 찬아.", ms: 2600 },
+        { them: "좀 어때? 승관이 형 찾은 것 같아?", ms: 2600 },
+        { me: "어... 잘 모르겠어.", ms: 2600 },
+        { me: "일단 집에서 더 기다려봐야 할 것 같은데...", ms: 2600 },
+        { me: "(누군가 문을 두드리는 소리)", sfx: true, ms: 2600 },
+        { them: "혀엉...!!", who: "???", ms: 2600 },
+        { me: "승관아?", ms: 2600 },
+        { them: "뭐야? 승관이 형이야?", ms: 2600 },
+        { them: "형, 문 열거야?", ms: 2600 },
+        { me: "...아니.", ms: 2600 },
+        { them: "형?", who: "부승관", ms: 2600 },
+        { them: "왜 안 열어줘?", who: "부승관", ms: 2600 },
+        { me: "너.", ms: 2600 },
+        { me: "승관이 아니잖아.", ms: 2600 },
+        { them: "...", who: "부승관", ms: 2600 },
+        { them: "(문을 쾅쾅 두드리는 소리)", who: "ş부?승怪\uFFFD?", red: true, glitch: true, knock: true, ms: 2600 },
+        { them: "어떻게 알았어?", who: "ş부?승怪\uFFFD?", red: true, glitch: true, knock: true, ms: 1500 },
+        { them: "어떻게 알았어?", who: "ş부?승怪\uFFFD?", red: true, glitch: true, knock: true, ms: 1500 },
+        { them: "어떻게 알았어?", who: "ş부?승怪\uFFFD?", red: true, glitch: true, knock: true, ms: 1500 },
+        { them: "......", who: "ş부?승怪\uFFFD?", ms: 2600 },
+        { them: "(멀어지는 발소리)", who: "ş부?승怪\uFFFD?", sfx: true, small: true, ms: 2600 },
+        { them: "...형.", ms: 2600 },
+        { them: "정한이 형, 괜찮아?", ms: 2600 },
+        { me: "...", ms: 2600 },
+        { me: "괜찮아, 난 괜찮은데.", ms: 2600 },
+        { me: "그럼 우리 승관이는?", ms: 2600 },
+        { me: "그냥 사라져버린거야...?", ms: 2600 }
+      ],
+      ending: { no: 4, title: "실패한 만찬", img: "media/ending4.jpg", line: "배고팠는데, 문도 안 열어주고..." }
+    }
+  },
+  /* D루트: 잠금 해제 뒤 2분 동안 아래를 하나도 안 하면 승관이에게서 전화 → 엔딩 6
+     (단체방 이벤트 시작 / 지수에게 전화 / 112에 전화 / 나의 찾기 승관 에어팟 확인 / 블로그 글 열람) */
+  routeD: { wait: 120000 },
+  routeScenesD: {
+    call: {
+      delay: 0, caller: "c10",
+      script: [
+        { them: "혀엉...!", ms: 2600 },
+        { me: "승관아!", ms: 2600 },
+        { me: "너 어디야? 다친 곳은?", ms: 2600 },
+        { them: "없어...", ms: 2600 },
+        { them: "나, 다시 집 가려는데 막 이상한 꽃들이 나와서...", ms: 2600 },
+        { them: "막 숨어있었어...", ms: 2600 },
+        { me: "지금 어디야?", ms: 2600 },
+        { me: "형이 데리러 갈까?", ms: 2600 },
+        { them: "아니야, 나 지금 아파트 단지야.", ms: 2600 },
+        { them: "(비밀번호 누르는 소리)", sfx: true, ms: 2600 },
+        { them: "됐다! 형! 나 공동현관 들어왔어!", ms: 2600 },
+        { them: "(뛰는 소리)", sfx: true, ms: 2200 },
+        { me: "(현관문이 열리는 소리)", sfx: true, ms: 2600 },
+        { me: "승관아!", ms: 2600 },
+        { them: "정한이 형!!", ms: 2600 }
+      ],
+      ending: { no: 6, title: "냐냐냥", img: "media/ending6.jpg", line: "아마 공략을 보고 클리어하셧겟죠?\n아니라면... 어떻게하셧지?\n아무튼 플레이해주셔서 정말 감사합니다.\n행복한 하루 되세요." }
+    }
+  },
+  routeB: { waitMsgs: 25000, limit: 90000, title: "승관이가 이미 먹혔을지도 모른다.\n승관이를..." },
+  /* B-1루트: B루트 "집에서 기다린다" 통화 중 승관이가 문을 두드린 뒤 뜨는 선택지 (open / closed 진행은 나중에) */
+  routeB1: { title: "승관이가 집에 돌아왔다.\n문을...", options: [{ key: "open", text: "열어 준다" }, { key: "closed", text: "열지 않는다" }] },
+  routeScenesB1: {
+    /* 열어 준다: 준휘와 통화를 이어서 → 엔딩 */
+    open: {
+      cont: true,
+      script: [
+        { them: "형! 문 열었어요?", ms: 2600 },
+        { them: "아니죠? 열면 안 될 것 같은데...", ms: 2600 },
+        { me: "(현관문이 열리는 소리)", sfx: true, small: true, ms: 2600 },
+        { me: "승관아, 괜찮아?", sfx: true, small: true, ms: 2600 },
+        { me: "다친 곳은 없어?", sfx: true, small: true, ms: 2600 },
+        { them: "으응......", who: "부승관", sfx: true, small: true, ms: 2600 },
+        { them: "혀엉... 나 근데...", who: "부승관", sfx: true, small: true, ms: 2600 },
+        { them: "배가 고파......", who: "ş부?승怪\uFFFD?", sfx: true, small: true, red: true, ms: 2600 },
+        { me: "(휴대폰이 땅에 떨어지는 소리)", sfx: true, crack: true, ms: 2600 }
+      ],
+      ending: { no: 1, title: "마지막 만찬", img: "media/ending_wait.jpg", line: "아, 배부르다... 고마워, 형." }
+    },
+    /* 열지 않는다: 준휘와 통화를 이어서 → 엔딩 4 */
+    closed: {
+      cont: true,
+      script: [
+        { them: "형! 문 열었어요?", ms: 2600 },
+        { them: "아니죠? 열면 안 될 것 같은데...", ms: 2600 },
+        { me: "어, 응. 안 열었는데......", ms: 2600 },
+        { them: "혀엉, 나 무서워...", who: "부승관", ms: 2600 },
+        { them: "빨리 열어주면 안돼?", who: "부승관", ms: 2600 },
+        { them: "정한이 혀엉......", who: "부승관", ms: 2600 },
+        { me: "...", ms: 2600 },
+        { them: "형, 열어주지 마요.", ms: 2600 },
+        { them: "승관이 집 비밀번호 알겠죠.", ms: 2600 },
+        { them: "형?", who: "부승관", ms: 2600 },
+        { them: "왜 안 열어줘?", who: "부승관", ms: 2600 },
+        { them: "빨리 열어!", who: "부승관", ms: 1800 },
+        { them: "열어!!!!", who: "ş부?승怪\uFFFD?", red: true, glitch: true, knock: true, ms: 1800 },
+        { them: "이 문 열라고!!!", who: "ş부?승怪\uFFFD?", red: true, glitch: true, knock: true, ms: 1800 },
+        { them: "(문을 쾅쾅 두드리는 소리)", who: "ş부?승怪\uFFFD?", red: true, glitch: true, knock: true, ms: 2600 },
+        { them: "......", who: "ş부?승怪\uFFFD?", ms: 2600 },
+        { them: "배고픈데......", who: "ş부?승怪\uFFFD?", ms: 2600 },
+        { them: "(멀어지는 발소리)", who: "ş부?승怪\uFFFD?", sfx: true, small: true, ms: 2600 },
+        { me: "...헉.", ms: 2600 },
+        { me: "갔어, 준휘야.", ms: 2600 },
+        { them: "다행이다.", ms: 2600 },
+        { me: "근데...", ms: 2600 },
+        { me: "그럼 우리 승관이는?", ms: 2600 },
+        { me: "그냥 사라져버린거야...?", ms: 2600 }
+      ],
+      ending: { no: 4, title: "실패한 만찬", img: "media/ending4.jpg", line: "배고팠는데, 문도 안 열어주고..." }
+    }
+  },
+  /* B루트 선택 뒤 진행 (나중에 채우기: go / wait) */
+  routeScenesB: {
+    go: {
+      delay: 1000, caller: "c11",
+      script: [
+        { me: "어, 한솔아.", ms: 2600 },
+        { them: "형, 승관이 뭐 찾은 거 있어?", ms: 2600 },
+        { me: "확실한 건 아니지만, 몇가지 찾았어.", ms: 2600 },
+        { me: "그래서 지금 나가보려고.", ms: 2600 },
+        { them: "잠깐, 뭐?", ms: 1800 },
+        { them: "형 혹시 미쳤어?", ms: 2600 },
+        { them: "형 잘못되면 어떡하게.", ms: 2600 },
+        { me: "아냐, 승관이 위치는 알아냈어.", ms: 2600 },
+        { me: "최대한 조심히 가볼게.", ms: 2600 },
+        { them: "쓰읍...... 대처 방법 같은 거라도 알고 있어야 하는 거 아냐?", ms: 2600 },
+        { me: "(현관문이 열리고 닫히는 소리)", sfx: true, ms: 2600 },
+        { me: "괜찮아, 지름길로 가면 돼.", ms: 2600 },
+        { them: "승관이랑 엇갈리지 않게 조심해.", ms: 2600 },
+        { me: "승관이도 아마 지름길로 오고 있을거야.", ms: 2600 },
+        { me: "(희미한 발소리)", sfx: true, ms: 2600 },
+        { them: "뭐라도 찾았어? 가방이라든가.", ms: 2600 },
+        { me: "글쎄... 지금...", ms: 1800 },
+        { me: "...! 승관아!", ms: 2600 },
+        { them: "혀엉...!!", who: "부승관", sfx: true, small: true, ms: 2600 },
+        { them: "(뛰어오는 소리)", who: "부승관", sfx: true, ms: 2600 },
+        { them: "혀엉, 나 진짜 죽는줄 알았는데...!", who: "부승관", ms: 1500 },
+        { me: "승관아! 뒤에!", ms: 1800 },
+        { me: "(휴대폰이 땅에 떨어지는 소리)", sfx: true, crack: true, ms: 2600 },
+        { them: "형...!", who: "부승관", ms: 2600 },
+        { them: "잠깐, 뭐야?", ms: 1800 },
+        { them: "무슨 일 있어?", ms: 2600 },
+        { them: "하지 마! 하지 말라고!", who: "부승관", ms: 2600 },
+        { them: "우리 형 데려가지 마...!!", who: "부승관", ms: 2600 },
+        { me: "부승관! 형 전화기 들고 집으로 가!", sfx: true, small: true, ms: 2600 },
+        { me: "형은, 걱정할 필요 없으니까.", sfx: true, small: true, ms: 2600 },
+        { me: "알았지?", sfx: true, small: true, vanish: true, ms: 2600 },
+        { them: "형!!!", who: "부승관", ms: 2600 }
+      ],
+      ending: { no: 3, title: "구원자의 말로", img: "media/ending3.jpg", line: "한솔아, 어떡해? 정한이 형이..." }
+    },
+    wait: {
+      delay: 1000, caller: "c3",
+      script: [
+        { them: "형! 괜찮아요?", ms: 2600 },
+        { them: "형 잘 있는지 모르겠어서 전화했어요.", ms: 2600 },
+        { me: "어, 일단은 좀 더 기다려 볼 생각인데...", ms: 2600 },
+        { me: "(누군가 문을 두드리는 소리)", sfx: true, ms: 2600 },
+        { them: "혀엉...!!", who: "???", ms: 2600 },
+        { me: "승관아?", ms: 2800 }
+      ],
+      /* 통화 대본이 끝나면 엔딩 대신 다음 선택지 (B-1) */
+      next: "B1"
+    }
+  },
+  /* 선택 뒤 진행: 1초 뒤 강제 수신 전화(받기만 가능, 끊기 불가) → 엔딩
+     대사: them/me, who 다른 사람 이름, small 작고 연한 글씨, sfx 회색 글씨(효과음) */
+  routeScenes: {
+    go: {
+      delay: 1000, caller: "c4",
+      script: [
+        { them: "정한이 형!", ms: 2600 },
+        { them: "어디야?", ms: 2600 },
+        { me: "나, 지금 승관이 찾으러 나가려고.", ms: 2600 },
+        { them: "뭐?", ms: 2600 },
+        { me: "이대로는 안 되겠어.", ms: 2600 },
+        { me: "금방 다시 올게.", ms: 2600 },
+        { them: "형, 잠깐만, 형?", ms: 2600 },
+        { me: "(현관문이 열리고 닫히는 소리)", sfx: true, ms: 2600 },
+        { them: "정한이 형! 지금 나갔어?", ms: 2600 },
+        { me: "(급한 발소리)", sfx: true, ms: 2000 },
+        { me: "순영아, 미안. 나중에 전화할게.", ms: 2000 },
+        { them: "형, 들어와!", ms: 2000 },
+        { me: "지금 골목에 숨었는데", ms: 1500 },
+        { me: "(정체불명의 소리)", sfx: true, ms: 2600 },
+        { them: "정한이 형! 윤정한!", ms: 2600 },
+        { me: "(무언가 땅에 떨어지는 소리)", sfx: true, crack: true, ms: 2600 }
+      ],
+      ending: { no: 2, title: "성급한 판단", img: "media/ending1.jpg", line: "승관아, 형 왔어. 많이 무서웠지." }
+    },
+    wait: {
+      delay: 1000, caller: "c8",
+      script: [
+        { them: "정한이 형.", ms: 2600 },
+        { me: "응.", ms: 2600 },
+        { them: "아, 다행이다.", ms: 2600 },
+        { them: "형 정신 못 차리고 있을까 봐.", ms: 2600 },
+        { them: "막 나가면 어떡하나 하고 전화했어.", ms: 2600 },
+        { me: "일단 나가면 안 될 것 같아서...", ms: 2600 },
+        { me: "(누군가 문을 두드리는 소리)", sfx: true, ms: 2600 },
+        { them: "혀엉...!!", who: "???", ms: 2600 },
+        { me: "승관아?", ms: 2600 },
+        { them: "뭐?", ms: 2600 },
+        { me: "승관아!", ms: 2600 },
+        { them: "잠깐만, 윤정한!", ms: 1800 },
+        { them: "혹시 모르니까 기다려!", ms: 1800 },
+        { them: "형?", ms: 2600 },
+        { me: "(현관문이 열리는 소리)", sfx: true, small: true, ms: 2600 },
+        { me: "승관아, 괜찮아?", sfx: true, small: true, ms: 2600 },
+        { me: "다친 곳은 없어?", sfx: true, small: true, ms: 2600 },
+        { them: "으응......", who: "부승관", sfx: true, small: true, ms: 2600 },
+        { them: "혀엉... 나 근데...", who: "부승관", sfx: true, small: true, ms: 2600 },
+        { them: "배가 고파......", who: "ş부?승怪\uFFFD?", sfx: true, small: true, red: true, ms: 2600 },
+        { me: "(휴대폰이 땅에 떨어지는 소리)", sfx: true, crack: true, ms: 2600 }
+      ],
+      ending: { no: 1, title: "마지막 만찬", img: "media/ending_wait.jpg", line: "아, 배부르다... 고마워, 형." }
+    }
+  },
+  /* 나의 찾기: 기기 목록. x,y 는 지도(900×1300) 위 위치, mine 이면 "사용자가 소지함" */
+  findmy: {
+    /* 기기 아이콘 (직접 그린 그림) */
+    icons: { phone: "data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"%3E%3Cdefs%3E%3ClinearGradient id=\"s\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"%3E%3Cstop offset=\"0\" stop-color=\"%237f8cff\"/%3E%3Cstop offset=\".5\" stop-color=\"%23c38bf0\"/%3E%3Cstop offset=\"1\" stop-color=\"%23ff9d8a\"/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx=\"50\" cy=\"50\" r=\"50\" fill=\"%23f2f3f5\"/%3E%3Crect x=\"35\" y=\"18\" width=\"30\" height=\"64\" rx=\"7\" fill=\"%232a2c31\"/%3E%3Crect x=\"37.5\" y=\"21\" width=\"25\" height=\"58\" rx=\"5\" fill=\"url%28%23s%29\"/%3E%3Crect x=\"45\" y=\"24\" width=\"10\" height=\"3\" rx=\"1.5\" fill=\"%232a2c31\"/%3E%3Cg fill=\"%23fff\" opacity=\".85\"%3E%3Crect x=\"40\" y=\"33\" width=\"5\" height=\"5\" rx=\"1.4\"/%3E%3Crect x=\"47.5\" y=\"33\" width=\"5\" height=\"5\" rx=\"1.4\"/%3E%3Crect x=\"55\" y=\"33\" width=\"5\" height=\"5\" rx=\"1.4\"/%3E%3Crect x=\"40\" y=\"41\" width=\"5\" height=\"5\" rx=\"1.4\"/%3E%3Crect x=\"47.5\" y=\"41\" width=\"5\" height=\"5\" rx=\"1.4\"/%3E%3Crect x=\"55\" y=\"41\" width=\"5\" height=\"5\" rx=\"1.4\"/%3E%3Crect x=\"40\" y=\"70\" width=\"20\" height=\"5\" rx=\"2.5\" opacity=\".6\"/%3E%3C/g%3E%3C/svg%3E", buds: "data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"%3E%3Cdefs%3E%3ClinearGradient id=\"c\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"%3E%3Cstop offset=\"0\" stop-color=\"%23ffffff\"/%3E%3Cstop offset=\"1\" stop-color=\"%23d3d7dd\"/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx=\"50\" cy=\"50\" r=\"50\" fill=\"%23f2f3f5\"/%3E%3Cellipse cx=\"50\" cy=\"72\" rx=\"24\" ry=\"4\" fill=\"%23000\" opacity=\".08\"/%3E%3Crect x=\"27\" y=\"36\" width=\"46\" height=\"36\" rx=\"12\" fill=\"url%28%23c%29\" stroke=\"%23aeb4bd\" stroke-width=\"1.2\"/%3E%3Cpath d=\"M27.6 47h44.8\" stroke=\"%23b3b8c0\" stroke-width=\"1.2\"/%3E%3Ccircle cx=\"50\" cy=\"58\" r=\"1.6\" fill=\"%23b9bec5\"/%3E%3Cg fill=\"%23fff\" stroke=\"%23aeb4bd\" stroke-width=\"1\"%3E%3Cellipse cx=\"41\" cy=\"33\" rx=\"6\" ry=\"5\"/%3E%3Cellipse cx=\"59\" cy=\"33\" rx=\"6\" ry=\"5\"/%3E%3C/g%3E%3Cg fill=\"%23e6e8ec\"%3E%3Ccircle cx=\"41\" cy=\"33\" r=\"2\"/%3E%3Ccircle cx=\"59\" cy=\"33\" r=\"2\"/%3E%3C/g%3E%3C/svg%3E" },
+    devices: [
+      { name: "윤정한의 iPhone", icon: "phone", where: "세봉구 · 지금", mine: true, x: 330, y: 420 },
+      { name: "윤정한의 AirPods", icon: "buds", where: "세봉구 · 지금", mine: true, x: 330, y: 420 },
+      /* 승관 에어팟: 처음 화면 밖, 오른쪽 아래 길가 */
+      { name: "부승관의 AirPods", icon: "buds", where: "세봉구 · 지금", dist: "621m", target: true, x: 774, y: 1150 }
+    ]
+  },
+  /* 결과 화면이 있는 검색어 (띄어쓰기 없이) */
+  webPages: {
+    "캐모마일": {
+      tabs: ["전체", "이미지", "동영상", "뉴스", "쇼핑", "지도"],
+      title: "캐모마일", sub: "식물",
+      desc: "캐모마일은 국화과에 속하는 저먼캐모마일, 로만캐모마일 등을 일컫는 말이다. 카모밀, 카모마일, 카밀레 등으로 부르기도 한다.",
+      src: "위키백과",
+      results: [
+        { site: "나무위키", url: "https://namu.wiki", title: "캐모마일", favText: "나", favBg: "linear-gradient(90deg,#0aa596,#2bb673)",
+          text: "추위에 강한 편이며, 현재 러시아의 국화이기도 하다. 꽃말은 \"역경 속의 힘(Energy in Adversity), 역경에 굴하지 않는 강인함\"이다. 여러 품종이 있지만 주로 로만 ..." },
+        { site: "Wikipedia", url: "https://ko.wikipedia.org", favText: "W", favBg: "#fff", favColor: "#222", title: "캐모마일 - 위키백과, 우리 모두의 백과사전", thumb: "media/chamo4.jpg",
+          text: "캐모마일(영어: chamomile)은 국화과에 속하는 저먼캐모마일(Matricaria chamomilla), 캐모마일(Chamaemelum nobile) 등을 일컫는다. 카모밀(프랑스어 ..." }
+      ],
+      /* 관련 질문 (눌러도 아무 반응 없음) */
+      faq: [
+        { q: "카모마일을 한국말로 뭐라고 하나요?" },
+        { q: "캐모마일의 효능은 무엇인가요?" },
+        { q: "캐모마일 하루에 몇잔?" },
+        { q: "캐모마일과 국화의 차이는 무엇인가요?" }
+      ],
+      /* 블로그 글 (나중에 내용 채우기) */
+      blogs: [
+        { site: "블로그", url: "https://m.blog.naver.com", favText: "b", favBg: "#2b2b2b", favColor: "#4cd964",
+          title: "현재 캐모마일 사태 요약", thumb: "media/blog1.jpg",
+          text: "2023. 10. 23. — 현재 서울을 비롯한 전세계에서 정체불명의 캐모마일 풍선이 떠다니는 상황입니다. 사상 초유의 사태인 만큼 ...",
+          /* 눌렀을 때 열리는 블로그 글 (작성자·본문·해시태그는 나중에 채우기) */
+          post: {
+            address: "m.blog.naver.com/today_issue", blogName: "오늘의 이슈", category: "긴급",
+            title: "현재 캐모마일 사태 요약",
+            author: "오늘의 이슈", date: "2023. 10. 23. 10:41",
+            /* 작성자 사진: gram today._issue 와 같은 🚨 아이콘 */
+            avatarEmoji: "🚨", avatarBg: "#ff4f6d",
+            /* 본문: 문자열은 한 줄, { img } 사진, { cap } 작은 회색 글씨, "" 빈 줄 */
+            body: [{ img: "media/blog1.jpg" }, { cap: "사진 출처: 본인" }, "",
+              "현재 서울을 비롯한 전세계에서 정체불명의 캐모마일 풍선이 떠다니는 상황입니다",
+              "사상 초유의 사태인 만큼 시민들의 혼란도 큰 모습인데요",
+              "다들 먹히지 않도록 주의하셔야겠습니다...ㄷㄷ"],
+            tags: ["서울", "블로그", "오늘의이슈", "캐모마일", "공포"],
+            likes: 483, comments: 77, shares: 32,
+            neighbors: "526", intro: "하루하루 전세계의 뉴스를 다룹니다",
+            when: "31분 전",
+            /* 같은 블로그의 다른 글 (아래 "이 블로그 ○○ 카테고리 글" 목록에 나오고, 누르면 열림).
+               적지 않은 항목(작성자·소개 등)은 위 글과 같음. 목록은 최신 글이 위, 지금 보는 글은 흐리게 */
+            more: [
+              { title: "현재 사태 행동 요령", date: "2023. 10. 23. 11:03", when: "9분 전",
+                likes: 156, comments: 41, shares: 18,
+                body: [
+                  { h: "1. 외출 자제" }, "야외에 거대한 풍선들이 떠있는 만큼 야외에 나가는 건 매우 무모한 짓이라고 할 수 있겠습니다.", "",
+                  { h: "2. 창문 폐쇄" }, "그렇다고 마냥 안전하지도 않은데요, 창문이 활짝 열려있다면 속수무책으로 풍선에게 당할 수도 있습니다.", "",
+                  { h: "3. 즉시 도주" }, "피치 못할 사정으로 야외에 나가셨다면 전속력으로 뛰어서 도망치고 풍선은 들어올 수 없는 좁은 곳으로 숨으세요.", "",
+                  { h: "4. 복제 주의" }, "풍선이 사람을 삼키면 드물게 그 사람의 외형으로 변한다고 합니다...ㄷㄷ 혹시 실종 되었던 사람이 있다면 다시 돌아왔다고 해서 무작정 받아주지 마세요.", "구별 방법은 아직 조사 중에 있습니다.", "",
+                  { h: "5. 날카로운 무기로 찌르기" }, "풍선이니만큼 바람이 빠지면 맥을 못 추립니다.", "물론 일반 풍선보다는 단단하니 찌르실 땐 한번에 힘을 실어서 찌르셔야 합니다.", "실패 하면 두 번은 없습니다.", "",
+                  { h: "6. 가짜 뉴스 주의" }, "요즘 같은 4차 산업혁명 시대에서는 인터넷을 통한 가짜뉴스가 만발하니 꼭 주의하시길 바랍니다. 모든 정보를 비판적으로 받아들이고 사실인지 제대로 판단하세요.", "",
+                  "여러분의 안전을 기원합니다!!"
+                ],
+                tags: ["서울", "블로그", "오늘의이슈", "공포"] }
+            ]
+          } }
+      ]
+    }
+  },
+  searches: ["행운의 편지", "스모어 쿠키", "스모어 쿠키 만들기", "홈베이킹 배탈", "지하철 배차간격", "동생이랑 화해하는 법", "사춘기 싸움", "17살 달래는 법", "진심어린사과", "불안 잠 안 옴", "차단 확인 법", "동생 가출", "가족 실ㅈ", "가족실종", "꽃 풍선 납치"],
 
   /* 캘린더 일정: date "YYYY-MM-DD", allDay: true 면 '하루종일', 아니면 start/end 시간 */
   events: [
@@ -1078,7 +1637,7 @@ const CONFIG = {
     { date: "2023-10-23", title: "개교기념일", color: "#34c759", allDay: true },
     { date: "2023-03-04", title: "개학식", color: "#34c759", allDay: true },
     { date: "2023-07-20", title: "여름방학식", color: "#34c759", allDay: true },
-    { date: "2023-12-31", title: "겨울방학식", color: "#34c759", allDay: true },
+    { date: "2023-12-29", title: "겨울방학식", color: "#34c759", allDay: true },
     { date: "2023-10-27", title: "동아리 발표회", color: "#34c759", allDay: true }
   ],
   holidays: ["2023-10-02", "2023-10-03", "2023-10-09"]
@@ -1092,7 +1651,7 @@ CONFIG.bubble = {
   /* 친구 목록 (친구 탭에 표시, 누르면 1:1 대화방이 열림) */
   friends: ["엄마", "세븐틴 최승철", "세븐틴 홍지수", "세븐틴 문준휘", "세븐틴 권순영", "세븐틴 전원우", "세븐틴 이지훈", "세븐틴 서명호", "세븐틴 김민규", "세븐틴 이석민", "승관이", "세븐틴 최한솔", "세븐틴 이찬", "담임쌤"],
   rooms: [
-    { id: "b-band", name: "세봉고 밴드부", size: 13, pinned: true,
+    { id: "b-band", name: "세봉고 밴드부", size: 13, pinned: true, minUnreadFrom: "2023-10-23",
       msgs: [
         { date: "2023년 10월 17일 화요일" },
         { from: "them", who: "세븐틴 최승철", text: "오늘 점심 먹는사람", time: "12:11" },
@@ -1308,6 +1867,10 @@ CONFIG.bubble = {
     { id: "b-mom", name: "엄마",
       msgs: [],
       replies: { rules: [], fallback: [] } },
+    /* 세븐틴 전원우: 처음엔 비어 있다가 두 번째 통화 뒤에 메시지가 옴 */
+    { id: "b-wu", name: "세븐틴 전원우",
+      msgs: [],
+      replies: { rules: [], fallback: [] } },
     /* 세븐틴 이석민: 처음엔 비어 있다가 밴드부 이벤트 뒤에 메시지가 옴 */
     { id: "b-sm", name: "세븐틴 이석민",
       msgs: [],
@@ -1378,7 +1941,7 @@ if (S.threads.n114) S.threads.n114.forEach(m => { if (m.stamp === "10월 21일 (
     });
   }
 } catch (e) { console.error(e); } })();
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function save() { if (window.__resetting) return; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 
 const ICON = {
   phone: '<svg width="34" height="34" viewBox="0 0 24 24" fill="#fff"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>',
@@ -1508,6 +2071,7 @@ function tryUnlock() {
 }
 function unlock() {
   locked = false; lock.classList.add("gone");
+  if (S && !S.dAt) { S.dAt = Date.now(); save(); }   // D루트 2분 타이머 시작 (처음 잠금 해제)
   try { renderHome(); } catch (e) { console.error(e); }
   setTimeout(() => { const p = lock.querySelector(".passpad"); if (p) p.remove(); if (!locked) setP(0); }, 420);
 }
@@ -1688,17 +2252,21 @@ function makeMissingAlert() {
 function sendAfterCall(A, cid) {
   const r = bbRoom(A.room); if (!r) return;
   const from = cid ? ((S.afterCallIdx || {})[cid] || 0) : 0;
-  A.msgs.slice(from).forEach((text, j) => setTimeout(() => {
+  A.msgs.slice(from).forEach((item, j) => setTimeout(() => {
     const k = from + j;
+    // 메시지는 글자 또는 { img: "사진 경로" }
+    const text = typeof item === "string" ? item : (item.text || "사진을 보냈습니다."), img = typeof item === "string" ? undefined : item.img;
     if (cid) { if (((S.afterCallIdx || {})[cid] || 0) > k) return; S.afterCallIdx = Object.assign(S.afterCallIdx || {}, { [cid]: k + 1 }); }
     // 상대가 답장하면 그전에 내가 보낸 메시지는 읽은 걸로 (1 표시 사라짐)
     r.msgs.forEach(m => { if (m.from === "me") m.read = true; });
     const today = todayLabel(), lastDate = [...r.msgs].reverse().find(m => m.date);
     if (!lastDate || lastDate.date !== today) r.msgs.push({ date: today });
-    r.msgs.push({ from: "them", text, time: hhmm(), unread: bbOpen !== A.room });
+    r.msgs.push({ from: "them", text, img, time: hhmm(), unread: bbOpen !== A.room });
     r.lastAt = Date.now(); save(); bubbleTone();
     if (bbOpen === A.room) bbDraw(); else if (current === "bubble" && !bbOpen) bubbleView(); else if (!current && !locked) renderHome();
     if (!lockArrive(`b:${r.id}:${text}`)) showBanner(BB_EI(), r.name, text);
+    // 원우 콜백 뒤 마지막 메시지가 오면 1초 뒤부터 B루트 선택지 가능
+    if (k === A.msgs.length - 1 && A.call && A.call === (CONFIG.route || {}).who && S.bWin) { S.bWin.msgsAt = Date.now() + 1000; save(); }
   }, j * (A.gap || 2000)));
 }
 // 잠겨 있으면 잠금화면 알림으로 올라오게 하고 true를 돌려줌
@@ -1748,6 +2316,7 @@ const APPS = {
   weather: { name: "날씨",   cls: "ic-weather", ic: () => ICON.weather, locked: true },
   clock:   { name: "시계",   cls: "ic-clock",   ic: () => ICON.clock },
   seal:    { name: "쿠팡", cls: "ic-seal", ic: () => '<svg width="56" height="56" viewBox="0 0 44 44"><path d="M22.00 0.50 L24.26 4.85 L27.56 1.23 L28.62 6.02 L32.75 3.38 L32.53 8.27 L37.20 6.80 L35.73 11.47 L40.62 11.25 L37.98 15.38 L42.77 16.44 L39.15 19.74 L43.50 22.00 L39.15 24.26 L42.77 27.56 L37.98 28.62 L40.62 32.75 L35.73 32.53 L37.20 37.20 L32.53 35.73 L32.75 40.62 L28.62 37.98 L27.56 42.77 L24.26 39.15 L22.00 43.50 L19.74 39.15 L16.44 42.77 L15.38 37.98 L11.25 40.62 L11.47 35.73 L6.80 37.20 L8.27 32.53 L3.38 32.75 L6.02 28.62 L1.23 27.56 L4.85 24.26 L0.50 22.00 L4.85 19.74 L1.23 16.44 L6.02 15.38 L3.38 11.25 L8.27 11.47 L6.80 6.80 L11.47 8.27 L11.25 3.38 L15.38 6.02 L16.44 1.23 L19.74 4.85Z" fill="#e8322c"/></svg>', locked: true },
+  findmy:  { name: "나의 찾기", cls: "ic-find", ic: () => '<svg width="48" height="48" viewBox="0 0 48 48"><defs><linearGradient id="fmg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ad672"/><stop offset="1" stop-color="#23a84a"/></linearGradient></defs><circle cx="24" cy="24" r="19" fill="url(#fmg)"/><path d="M24 9.5l4.2 14.5L24 38.5 19.8 24z" fill="#fff"/><path d="M24 9.5l4.2 14.5h-8.4z" fill="#fff"/><path d="M19.8 24h8.4L24 38.5z" fill="#fff" opacity=".55"/><circle cx="24" cy="24" r="1.8" fill="#23a84a"/></svg>' },
   internet:{ name: "인터넷", cls: "ic-web", ic: () => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="22" cy="22" r="15"/><ellipse cx="22" cy="22" rx="6.5" ry="15"/><path d="M7 22h30M9.5 14h25M9.5 30h25"/></svg>' },
   lens:    { name: "gram", cls: "ic-lens", ic: () => '<svg width="38" height="38" viewBox="0 0 167 168" aria-hidden="true"><path fill="#fff" fill-rule="evenodd" d="M81.00 162.01C75.50 162.43 67.83 162.18 63.50 161.91C59.17 161.65 57.79 161.10 55.00 160.43C52.21 159.76 49.14 158.75 46.75 157.89C44.36 157.03 43.00 156.49 40.67 155.25C38.34 154.01 35.03 152.04 32.75 150.45C30.47 148.87 28.92 147.55 27.00 145.76C25.08 143.97 23.00 141.83 21.25 139.71C19.50 137.58 17.98 135.41 16.51 133.00C15.04 130.59 13.56 127.75 12.43 125.25C11.31 122.75 10.58 120.88 9.73 118.00C8.88 115.12 7.88 111.21 7.34 108.00C6.80 104.79 6.65 101.54 6.48 98.75C6.31 95.96 6.25 94.25 6.34 91.25C6.42 88.25 6.67 83.79 6.99 80.75C7.32 77.71 7.81 75.38 8.30 73.00C8.80 70.62 9.19 69.00 9.96 66.50C10.73 64.00 11.80 60.71 12.90 58.00C14.00 55.29 15.22 52.75 16.56 50.25C17.90 47.75 19.53 45.12 20.94 43.00C22.35 40.88 23.17 39.71 25.02 37.50C26.87 35.29 29.92 31.89 32.04 29.75C34.16 27.61 35.76 26.29 37.75 24.69C39.74 23.08 41.57 21.68 44.00 20.11C46.43 18.53 49.85 16.56 52.31 15.25C54.77 13.94 55.97 13.36 58.75 12.27C61.53 11.18 66.17 9.57 69.00 8.71C71.83 7.84 73.17 7.58 75.75 7.09C78.33 6.59 81.38 6.01 84.50 5.74C87.62 5.48 91.54 5.50 94.50 5.51C97.46 5.51 99.46 5.48 102.25 5.76C105.04 6.04 108.17 6.49 111.25 7.19C114.33 7.89 117.88 8.92 120.75 9.94C123.62 10.97 125.99 12.03 128.50 13.33C131.01 14.63 133.50 16.10 135.84 17.75C138.17 19.40 140.51 21.34 142.50 23.21C144.49 25.09 146.14 26.91 147.80 29.00C149.46 31.09 151.01 33.25 152.47 35.75C153.92 38.25 155.44 41.38 156.53 44.00C157.62 46.62 158.33 48.83 159.02 51.50C159.71 54.17 160.31 57.08 160.66 60.00C161.02 62.92 161.11 65.54 161.12 69.00C161.12 72.46 161.01 77.45 160.70 80.75C160.39 84.05 159.95 85.90 159.25 88.78C158.55 91.65 157.57 95.13 156.47 98.00C155.37 100.87 154.07 103.58 152.66 106.00C151.24 108.42 149.51 110.71 147.99 112.50C146.48 114.29 145.03 115.54 143.56 116.75C142.08 117.96 140.92 118.79 139.15 119.75C137.38 120.71 135.05 121.81 132.94 122.50C130.83 123.19 129.07 123.64 126.50 123.88C123.93 124.12 120.12 124.17 117.50 123.95C114.88 123.74 112.46 123.05 110.75 122.59C109.04 122.13 108.58 121.90 107.25 121.21C105.92 120.51 104.08 119.43 102.75 118.44C101.42 117.45 100.03 115.85 99.24 115.25C98.45 114.65 99.33 114.10 98.00 114.85C96.67 115.59 93.33 118.45 91.25 119.72C89.17 120.98 87.46 121.74 85.50 122.44C83.54 123.13 82.04 123.67 79.50 123.90C76.96 124.14 72.96 124.16 70.25 123.85C67.54 123.55 65.51 122.97 63.25 122.07C60.99 121.18 58.71 120.02 56.71 118.50C54.71 116.98 52.68 114.94 51.25 112.94C49.82 110.94 48.91 109.28 48.13 106.50C47.35 103.72 46.61 100.08 46.56 96.25C46.51 92.42 47.20 87.75 47.84 83.50C48.47 79.25 49.40 74.32 50.39 70.75C51.37 67.18 52.48 64.56 53.75 62.06C55.02 59.56 56.24 57.73 57.99 55.75C59.74 53.77 61.96 51.72 64.25 50.19C66.54 48.66 69.33 47.41 71.75 46.55C74.17 45.69 76.58 45.28 78.75 45.03C80.92 44.77 83.12 44.93 84.75 45.02C86.38 45.11 87.21 45.26 88.50 45.57C89.79 45.87 90.83 46.09 92.50 46.84C94.17 47.60 97.33 49.68 98.50 50.10C99.67 50.53 99.15 50.05 99.50 49.40C99.85 48.76 100.13 46.97 100.59 46.25C101.05 45.53 99.97 45.32 102.25 45.10C104.53 44.89 111.91 44.86 114.25 44.96C116.59 45.07 115.81 45.41 116.27 45.75C116.73 46.09 116.86 46.50 117.01 47.00C117.15 47.50 118.07 41.21 117.12 48.75C116.18 56.29 112.14 83.75 111.34 92.25C110.53 100.75 111.91 97.98 112.32 99.75C112.72 101.52 113.18 101.92 113.75 102.84C114.32 103.77 115.08 104.65 115.75 105.30C116.42 105.95 116.83 106.32 117.75 106.76C118.67 107.19 120.00 107.71 121.25 107.91C122.50 108.10 124.04 108.08 125.25 107.92C126.46 107.76 127.38 107.46 128.50 106.93C129.62 106.41 131.00 105.54 132.00 104.76C133.00 103.97 133.69 103.24 134.50 102.24C135.31 101.24 136.08 100.21 136.88 98.75C137.68 97.29 138.45 96.21 139.32 93.50C140.18 90.79 141.45 86.62 142.09 82.50C142.72 78.38 143.10 72.58 143.12 68.75C143.14 64.92 142.59 62.08 142.20 59.50C141.80 56.92 141.66 55.85 140.76 53.25C139.85 50.65 137.91 46.22 136.75 43.93C135.59 41.64 134.87 40.90 133.80 39.50C132.72 38.10 131.54 36.76 130.29 35.50C129.03 34.24 127.71 33.05 126.25 31.91C124.79 30.78 123.83 29.93 121.50 28.69C119.17 27.46 114.67 25.44 112.25 24.49C109.83 23.55 109.25 23.50 107.00 23.04C104.75 22.58 102.54 21.93 98.75 21.72C94.96 21.52 88.83 21.35 84.25 21.81C79.67 22.27 74.67 23.57 71.25 24.48C67.83 25.39 66.25 26.16 63.75 27.27C61.25 28.37 58.62 29.70 56.25 31.10C53.88 32.50 51.25 34.37 49.50 35.68C47.75 36.99 47.30 37.44 45.75 38.95C44.20 40.46 41.79 42.91 40.20 44.75C38.61 46.59 37.56 48.02 36.23 50.00C34.91 51.98 33.33 54.65 32.25 56.65C31.17 58.65 30.65 59.77 29.78 62.00C28.91 64.23 27.73 67.71 27.04 70.00C26.35 72.29 26.13 73.08 25.65 75.75C25.18 78.42 24.49 82.67 24.20 86.00C23.91 89.33 23.93 93.00 23.93 95.75C23.92 98.50 23.90 100.08 24.19 102.50C24.48 104.92 25.00 107.67 25.68 110.25C26.35 112.83 27.20 115.52 28.26 118.00C29.31 120.48 30.68 123.03 32.00 125.16C33.32 127.28 34.68 129.03 36.20 130.75C37.72 132.47 39.33 134.04 41.13 135.50C42.93 136.96 44.56 138.19 47.00 139.52C49.44 140.85 52.46 142.40 55.75 143.46C59.04 144.52 64.12 145.42 66.75 145.88C69.38 146.33 69.08 146.14 71.50 146.16C73.92 146.18 78.08 146.25 81.25 145.99C84.42 145.74 87.50 145.26 90.50 144.61C93.50 143.95 96.25 143.24 99.25 142.07C102.25 140.89 106.67 138.34 108.50 137.56C110.33 136.77 109.62 137.13 110.25 137.34C110.88 137.55 110.87 137.14 112.25 138.79C113.63 140.44 117.45 145.59 118.53 147.25C119.60 148.91 118.83 148.25 118.70 148.75C118.57 149.25 118.52 149.59 117.74 150.25C116.96 150.91 115.54 151.83 114.00 152.69C112.46 153.56 111.42 154.31 108.50 155.42C105.58 156.54 101.08 158.27 96.50 159.37C91.92 160.47 86.50 161.58 81.00 162.01ZM77.88 108.00C78.92 107.99 79.27 108.00 80.25 107.74C81.23 107.49 82.79 106.91 83.75 106.46C84.71 106.00 85.17 105.70 86.00 105.01C86.83 104.32 87.95 103.27 88.75 102.31C89.55 101.35 90.09 100.55 90.78 99.25C91.48 97.95 92.29 96.58 92.92 94.50C93.56 92.42 94.10 90.04 94.60 86.75C95.09 83.46 95.88 78.04 95.88 74.75C95.89 71.46 95.06 68.71 94.63 67.00C94.20 65.29 93.96 65.34 93.31 64.50C92.66 63.66 91.47 62.55 90.75 61.95C90.03 61.35 89.92 61.26 89.00 60.90C88.08 60.54 86.62 59.96 85.25 59.79C83.88 59.61 82.08 59.68 80.75 59.85C79.42 60.02 78.38 60.36 77.25 60.81C76.12 61.26 74.96 61.90 74.00 62.55C73.04 63.19 72.29 63.84 71.50 64.67C70.71 65.49 69.90 66.44 69.23 67.50C68.56 68.56 68.19 68.83 67.49 71.00C66.79 73.17 65.64 77.54 65.03 80.50C64.42 83.46 64.05 86.58 63.82 88.75C63.59 90.92 63.62 92.12 63.64 93.50C63.65 94.88 63.67 95.71 63.93 97.00C64.19 98.29 64.63 100.04 65.19 101.25C65.76 102.46 66.53 103.40 67.33 104.25C68.13 105.10 68.89 105.76 70.00 106.34C71.11 106.93 72.69 107.50 74.00 107.78C75.31 108.05 76.83 108.01 77.88 108.00Z"/></svg>' },
   bubble:  { name: "버블",   cls: "ic-bubble",  ic: () => '<svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><g fill="#6b4a2b" stroke="#6b4a2b" stroke-width="2" stroke-linejoin="round"><ellipse cx="12" cy="11.2" rx="8.6" ry="6.9"/><path d="M6.6 15.6 5.4 19.6l5-2.6z"/></g><g fill="#fff"><ellipse cx="12" cy="11.2" rx="8.6" ry="6.9"/><path d="M6.6 15.6 5.4 19.6l5-2.6z"/></g></svg>' },
@@ -1761,7 +2330,7 @@ function appBtn(key) {
   return `<button class="appbtn" data-app="${key}" aria-label="${a.name}"><div class="icwrap"><div class="icon ${a.cls}">${a.ic()}</div>${n ? `<div class="badge">${n}</div>` : ""}</div><span>${a.name}</span></button>`;
 }
 function renderHome() {
-  $("#grid").innerHTML = ["calendar", "photos", "camera", "weather", "clock", "notes", "settings", "seal", "lens"].map(appBtn).join("");
+  $("#grid").innerHTML = ["calendar", "photos", "camera", "weather", "clock", "notes", "settings", "seal", "lens", "findmy"].map(appBtn).join("");
   $("#dock").innerHTML = ["phone", "messages", "bubble", "internet"].map(appBtn).join("");
   document.querySelectorAll("#home [data-app]").forEach(b => b.onclick = () => openApp(b.dataset.app, undefined, b.querySelector(".icon")));
 }
@@ -1819,6 +2388,7 @@ function openApp(key, arg, icon) {
   clearTimeout(window.homeHideT); window.homeHideT = setTimeout(() => { if (current) $("#home").style.visibility = "hidden"; }, 380);
 }
 function closeApp(instant) {
+  if (document.querySelector("#app .blogpane")) blogClosed();
   current = null; bbOpen = null; openId = null;
   // 앱을 닫으면 재생 중이던 영상은 멈춤 (gram 등)
   appEl.querySelectorAll("video").forEach(v => { try { v.pause(); } catch (e) {} });
@@ -2045,9 +2615,23 @@ function tone(freqs, dur, vol = 0.06, when = 0) {
 const DTMF = { 1: [697, 1209], 2: [697, 1336], 3: [697, 1477], 4: [770, 1209], 5: [770, 1336], 6: [770, 1477], 7: [852, 1209], 8: [852, 1336], 9: [852, 1477], "*": [941, 1209], 0: [941, 1336], "#": [941, 1477] };
 function dtmf(k) { if (DTMF[k]) tone(DTMF[k], 0.14, 0.05); }
 function startRingback() { tone([440, 480], 1, 0.05); return setInterval(() => tone([440, 480], 1, 0.05), 3000); }
+// 걸려오는 전화: 전화벨처럼 "따르릉, 따르릉" (작은 종을 빠르게 두드리는 소리 두 번 → 쉼)
+function bellStrike(t, f, vol) {
+  const a = ac(); if (!a) return;
+  const g = a.createGain();
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.003); g.gain.exponentialRampToValueAtTime(0.0008, t + 0.11);
+  g.connect(a.destination);
+  [[f, 1], [f * 2.76, 0.35], [f * 5.4, 0.12]].forEach(([fr, v]) => {
+    const o = a.createOscillator(), og = a.createGain(); o.frequency.value = fr; og.gain.value = v;
+    o.connect(og); og.connect(g); o.start(t); o.stop(t + 0.13);
+  });
+}
 function startRingtone() {
-  const p = () => [0, 0.17, 0.34, 0.51].forEach((w, i) => tone([i % 2 ? 1046 : 1318], 0.14, 0.06, w));
-  p(); return setInterval(p, 2000);
+  const p = () => {
+    const a = ac(); if (!a) return; const t0 = a.currentTime + 0.02;
+    [0, 0.6].forEach(b => { for (let k = 0; k < 16; k++) bellStrike(t0 + b + k * 0.026, k % 2 ? 1180 : 1420, 0.05); });
+  };
+  p(); return setInterval(p, 3000);
 }
 function stopRing() { if (call && call.ring) { clearInterval(call.ring); call.ring = null; } }
 // 메시지 도착 효과음
@@ -2085,6 +2669,7 @@ function startCall(id, number) {
   if (c) id = c.id;
   stopCall();
   call = { id, number, type: "out", t0: null, timers: [] };
+  if (id === "c2" || (!c && String(number || "").replace(/\D/g, "") === "112")) { S.dFail = true; save(); }   // D루트 실패
   callShell(c, c ? c.name : number, "호출 중...");
   controls();
   const script = c ? CONFIG.calls[id] : null;
@@ -2108,9 +2693,16 @@ function startCall(id, number) {
   }
   if (!c) { later(() => { setStat("없는 번호입니다"); later(() => endCall("them"), 1800); }, 2000); return; }
   call.ring = startRingback();
+  // 선택지 타이머: 원우에게 전화를 걸면 멈춤 / 선택지가 뜬 뒤로 원우는 받지 않음
+  if (id && id === (CONFIG.route || {}).who) { routeTimerPause(); if ((S.routeA || {}).shown) { later(() => { stopRing(); setStat("응답 없음"); later(() => endCall("them"), 1500); }, 5500); call.noAnswer = true; return; } }
   // needEv: 정해진 이벤트가 끝난 뒤에만 받음 (그 전엔 응답 없음)
   // onceOnly: 끝까지 한 번 통화한 뒤로는 받지 않음
-  if (script && ((script.needEv && !(S.evFinished || {})[script.needEv]) || (script.onceOnly && (S.callDone || {})[id]))) {
+  // nexts: 끝까지 통화할 때마다 다음 대본으로 (모두 끝나면 onceOnly 면 응답 없음)
+  // 예전 버전에서 이미 끝까지 통화했다면 1단계 끝난 것으로
+  if ((S.callDone || {})[id] && !(S.callStage || {})[id]) { S.callStage = Object.assign(S.callStage || {}, { [id]: 1 }); save(); }
+  const stage = (S.callStage || {})[id] || 0, nexts = (script && script.nexts) || [];
+  const allDone = script && (S.callDone || {})[id] && stage >= nexts.length + 1;
+  if (script && ((script.needEv && !(S.evFinished || {})[script.needEv]) || (script.onceOnly && (nexts.length ? allDone : (S.callDone || {})[id])))) {
     later(() => { stopRing(); setStat("응답 없음"); later(() => endCall("them"), 1500); }, 5500);
     call.noAnswer = true; return;
   }
@@ -2126,7 +2718,9 @@ function startCall(id, number) {
     later(() => { stopRing(); setStat("응답 없음"); later(() => endCall("them"), 1500); }, 5500);
     call.noAnswer = true; return;
   }
-  later(() => connect(script), 2600);
+  const useScript = stage > 0 && nexts[stage - 1] ? Object.assign({}, script, { start: nexts[stage - 1] }) : script;
+  call.stage = stage;
+  later(() => connect(useScript), 2600);
 }
 function incomingCall(id) {
   if (!callEl.hidden) return;
@@ -2153,18 +2747,21 @@ function connect(script) {
 function run(script, scene, i) {
   if (!call) return;
   const steps = script[scene] || [];
-  if (i >= steps.length) { call.finished = true; if (call.id) { S.callDone = Object.assign(S.callDone || {}, { [call.id]: true }); save(); } if (script.abrupt) { endCall("them"); return; } $("#curbox").innerHTML = ""; setStat("통화 종료"); clearInterval(call.clock); later(() => endCall("them"), 1400); return; }
+  if (i >= steps.length && script.onEnd) { clearInterval(call.clock); script.onEnd(); return; }
+  if (i >= steps.length) { call.finished = true; if (call.id) { S.callDone = Object.assign(S.callDone || {}, { [call.id]: true }); S.callStage = Object.assign(S.callStage || {}, { [call.id]: (call.stage || 0) + 1 }); save(); } if (script.abrupt) { endCall("them"); return; } $("#curbox").innerHTML = ""; setStat("통화 종료"); clearInterval(call.clock); later(() => endCall("them"), 1400); return; }
   const st = steps[i];
   if (st.choice) { run(script, st.choice[0][1], 0); return; }
   say(st, () => run(script, scene, i + 1));
 }
 function say(st, next) {
+  if (st.crack) screenCrack(true);
+  if (st.knock) { screen.classList.remove("shake-knock"); void screen.offsetWidth; screen.classList.add("shake-knock"); }
   // pause: 아무 말 없이 기다림 (그동안 끊으면 거기서 끝)
   if (st.pause) { $("#curbox").innerHTML = ""; later(next, st.pause); return; }
   const me = "me" in st, text = me ? st.me : st.them;
   const name = me ? CONFIG.owner.name : (st.who || contact(call.id)?.name || call.label || "상대");
-  $("#curbox").innerHTML = `<div class="cline${st.small ? " small" : ""}"><span class="who">${esc(name)}</span><span class="txt">${esc(text)}</span></div>`;
-  const ms = st.ms || Math.max(2600, 1400 + text.length * 110), fade = Math.min(300, ms / 4);
+  $("#curbox").innerHTML = `<div class="cline${st.small ? " small" : ""}${st.sfx ? " sfx" : ""}${st.flicker ? " flicker" : ""}${st.vanish ? " vanish" : ""}${st.red ? " red" : ""}${st.glitch ? " glitch" : ""}"><span class="who">${esc(name)}</span><span class="txt">${esc(text)}</span></div>`;
+  const ms = st.ms || Math.max(2600, 1400 + text.length * 110) + 300, fade = Math.min(300, ms / 4);
   later(() => { const el = $("#curbox .cline"); if (el) el.classList.add("out"); }, ms - fade);
   later(next, ms);
 }
@@ -2185,6 +2782,23 @@ function endCall() {
   // 번호 통화(예: 112)를 끝까지 들은 뒤의 이벤트: 첫 통화일 때만
   const nk = !c.id && c.number ? String(c.number).replace(/\D/g, "") : null, ev = nk && (CONFIG.callEvents || {})[nk];
   if (ev && c.finished) { S.numFinished = Object.assign(S.numFinished || {}, { [nk]: true }); save(); fireCallEvent(nk, ev.delay || 3000); }
+  // 선택지 타이머: 원우 통화가 끝나면 (끝까지 → 다음 단계 / 중간에 끊음 → 남은 시간 이어서)
+  if (c.id && c.id === (CONFIG.route || {}).who && S.routeT) {
+    const st = (S.callStage || {})[c.id] || 0;
+    if (c.finished && st === 1) routeTimerStart(CONFIG.route.after1);
+    else if (c.finished && st >= 2) { S.routeT = null; save(); }
+    else routeTimerResume();
+  }
+  // B루트: 원우 두 번째 통화(콜백)를 끝까지 마치면 창이 열림 (메시지가 다 온 뒤부터 / 정해진 시간 지나면 A루트)
+  if (c.id && c.id === (CONFIG.route || {}).who && c.finished && ((S.callStage || {})[c.id] || 0) >= 2 && !S.bWin && CONFIG.routeB) {
+    S.bWin = { msgsAt: Date.now() + CONFIG.routeB.waitMsgs, deadline: Date.now() + CONFIG.routeB.limit }; save();
+  }
+  setTimeout(routeCheck, 400);   // 통화 중에 시간이 다 됐으면 끝난 뒤 선택지
+  // 특정 통화(몇 번째)를 끝까지 마친 뒤 오는 버블: afterCall 항목에 call / stage 지정
+  if (c.finished && c.id) {
+    const st = (S.callStage || {})[c.id] || 0;
+    for (const [aid, A] of Object.entries(CONFIG.afterCall || {})) if (A.call === c.id && A.stage === st) setTimeout(() => startAfter(aid), A.delay || 1500);
+  }
   const after = c.t0 && CONFIG.afterCall && CONFIG.afterCall[c.id];
   if (after && !(S.afterCallSent || {})[c.id]) { S.afterCallSent = Object.assign(S.afterCallSent || {}, { [c.id]: true }); save(); S.afterCallIdx = Object.assign(S.afterCallIdx || {}, { [c.id]: 0 }); save(); setTimeout(() => sendAfterCall(after, c.id), 1200); }
   callEl.style.opacity = "0";
@@ -2224,17 +2838,25 @@ const NOTE_ICON = {
   clip: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 11.5l-7.8 7.8a5 5 0 01-7-7L13 4.5a3.4 3.4 0 014.8 4.8l-7.7 7.7a1.7 1.7 0 01-2.4-2.4l7-7"/></svg>',
   pen: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8.5 16l3.5-9 3.5 9M9.8 13h4.4"/></svg>'
 };
+// "8,762" 같은 숫자면 좋아요 누를 때 +1, "1.2만" 처럼 줄인 숫자는 그대로
+function likeCount(base, on) {
+  const s = String(base); if (!on || !/^[\d,]+$/.test(s)) return s;
+  return (parseInt(s.replace(/,/g, ""), 10) + 1).toLocaleString("en-US");
+}
 function notesView() {
   appEl.classList.add("nt");
-  const notes = [...CONFIG.notes].sort((a, b) => noteDays(a) - noteDays(b));
+  // 직접 쓴 메모(S.userNotes)도 같이, 최근 수정한 것이 위로
+  const mine = (S.userNotes || []).filter(n => noteText(n).trim()).map(n => ({ title: noteTitle(n), date: n.date, lines: n.rows.slice(1).map(r => (r.t === "ck" ? (r.on ? "[x] " : "[ ] ") : "") + r.v), uid: n.id, at: n.at }));
+  const notes = [...mine, ...CONFIG.notes].sort((a, b) => noteDays(a) - noteDays(b) || (b.at || 0) - (a.at || 0));
   const groups = [];
   notes.forEach(n => { const g = noteGroup(n); let x = groups.find(y => y.g === g); if (!x) groups.push(x = { g, list: [] }); x.list.push(n); });
   appEl.innerHTML = `<div class="nt-top"><button class="gw" id="ntback" aria-label="뒤로">${NOTE_ICON.back}</button><span class="gw">${NOTE_ICON.more}</span></div>
     <div class="scroll nt-scroll"><h1 class="nt-h">모든 iCloud</h1><div class="nt-count">${notes.length}개의 메모</div>
-    ${groups.map(g => `<h2 class="nt-g">${esc(g.g)}</h2>${g.list.map(n => `<button class="nt-card" data-n="${CONFIG.notes.indexOf(n)}"><b class="ellip">${esc(n.title)}</b><div class="nt-meta ellip"><span>${noteDate(n)}</span> ${esc(notePrev(n))}</div><div class="nt-f">${NOTE_ICON.folder} 메모</div></button>`).join("")}`).join("")}</div>
-    <div class="nt-bar"><div class="nt-search">${SVG.search}<span class="grow">검색</span>${NOTE_ICON.mic}</div><span class="gw">${NOTE_ICON.compose}</span></div>`;
+    ${groups.map(g => `<h2 class="nt-g">${esc(g.g)}</h2>${g.list.map(n => `<button class="nt-card" ${n.uid ? `data-u="${esc(n.uid)}"` : `data-n="${CONFIG.notes.indexOf(n)}"`}><b class="ellip">${esc(n.title)}</b><div class="nt-meta ellip"><span>${noteDate(n)}</span> ${esc(notePrev(n))}</div><div class="nt-f">${NOTE_ICON.folder} 메모</div></button>`).join("")}`).join("")}</div>
+    <div class="nt-bar"><div class="nt-search">${SVG.search}<span class="grow">검색</span>${NOTE_ICON.mic}</div><button class="gw" id="ntnew" aria-label="새 메모">${NOTE_ICON.compose}</button></div>`;
   $("#ntback").onclick = () => closeApp();
-  appEl.querySelectorAll(".nt-card").forEach(b => b.onclick = () => noteOpen(+b.dataset.n));
+  appEl.querySelectorAll(".nt-card").forEach(b => b.onclick = () => b.dataset.u ? noteEdit(b.dataset.u) : noteOpen(+b.dataset.n));
+  $("#ntnew").onclick = () => noteEdit(null);
 }
 function noteOpen(i) {
   const n = CONFIG.notes[i];
@@ -2250,13 +2872,83 @@ function noteOpen(i) {
   }).join("");
   pane.innerHTML = `<div class="nt-top"><button class="gw" data-back aria-label="뒤로">${NOTE_ICON.back}</button><span class="gw">${NOTE_ICON.undo}${NOTE_ICON.share}${NOTE_ICON.more}</span></div>
     <div class="scroll nt-body"><h1 class="nt-title">${esc(n.title)}</h1>${body}</div>
-    <div class="nt-bar"><span class="gw nt-tools">${NOTE_ICON.list}${NOTE_ICON.clip}${NOTE_ICON.pen}</span><span class="gw">${NOTE_ICON.compose}</span></div>`;
+    <div class="nt-bar"><span class="gw nt-tools">${NOTE_ICON.list}${NOTE_ICON.clip}${NOTE_ICON.pen}</span><button class="gw nt-new" aria-label="새 메모">${NOTE_ICON.compose}</button></div>`;
   pane.querySelector("[data-back]").onclick = () => { appEl.classList.remove("inroom", "settled"); pane.style.animation = ""; pane.classList.add("out"); setTimeout(() => pane.remove(), 260); };
+  pane.querySelector(".nt-new").onclick = () => { pane.remove(); noteEdit(null); };
   pane.querySelectorAll(".nt-ck").forEach(el => {
     const toggle = () => { const on = !el.classList.contains("done"); el.classList.toggle("done", on); el.setAttribute("aria-checked", on); checks[el.dataset.k] = on; save(); };
     el.onclick = toggle;
     el.onkeydown = e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); toggle(); } };
   });
+}
+
+/* 직접 쓰는 메모: 줄마다 한 칸, 첫 줄이 제목. 왼쪽 아래 목록 버튼으로 그 줄을 체크박스 항목으로 바꿈 */
+const noteTitle = n => (n.rows[0] && n.rows[0].v.trim()) || "새로운 메모";
+const noteText = n => n.rows.map(r => r.v).join("");
+function noteEdit(uid) {
+  S.userNotes = S.userNotes || [];
+  let n = uid && S.userNotes.find(x => x.id === uid);
+  if (!n) { n = { id: "u" + Date.now(), date: (d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`)(nowParts().d), at: Date.now(), rows: [{ t: "p", v: "" }] }; S.userNotes.push(n); }
+  const pane = document.createElement("div");
+  pane.className = "smspane nt-pane"; appEl.classList.add("msgs-app"); appEl.appendChild(pane);
+  requestAnimationFrame(() => appEl.classList.add("inroom"));
+  pane.innerHTML = `<div class="nt-top"><button class="gw" data-back aria-label="뒤로">${NOTE_ICON.back}</button></div>
+    <div class="scroll nt-body nt-ed"></div>
+    <div class="nt-bar"><span class="gw nt-tools"><button class="nt-chk" aria-label="체크리스트">${NOTE_ICON.list}</button>${NOTE_ICON.clip}${NOTE_ICON.pen}</span><span class="gw">${NOTE_ICON.compose}</span></div>`;
+  const ed = pane.querySelector(".nt-ed");
+  let cur = 0, saveT;
+  const persist = () => { clearTimeout(saveT); saveT = setTimeout(() => { n.at = Date.now(); save(); }, 300); };
+  const grow = ta => { ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; };
+  const draw = (focus, caret) => {
+    ed.innerHTML = n.rows.map((r, i) => `<div class="ne-row${i === 0 ? " ttl" : ""}${r.t === "ck" ? " ck" : ""}${r.on ? " done" : ""}" data-i="${i}">${r.t === "ck" ? `<button class="box" aria-label="체크" tabindex="-1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></button>` : ""}<textarea rows="1" spellcheck="false" ${i === 0 ? 'placeholder="제목"' : ""}>${esc(r.v)}</textarea></div>`).join("");
+    ed.querySelectorAll("textarea").forEach((ta, i) => {
+      grow(ta);
+      ta.onfocus = () => { cur = i; };
+      ta.oninput = () => {
+        // 줄바꿈이 들어오면 (키보드 Enter) 새 줄로 나눔
+        if (ta.value.includes("\n")) {
+          const parts = ta.value.split("\n"), r = n.rows[i];
+          r.v = parts[0];
+          const t = r.t === "ck" && i > 0 ? "ck" : "p";
+          const extra = parts.slice(1).map(v => ({ t, v }));
+          if (r.t === "ck" && !r.v && extra.length === 1 && !extra[0].v) { r.t = "p"; persist(); return draw(i, 0); }
+          n.rows.splice(i + 1, 0, ...extra); persist(); return draw(i + extra.length, 0);
+        }
+        n.rows[i].v = ta.value; grow(ta); persist();
+      };
+      ta.onkeydown = e => {
+        if (e.isComposing || e.keyCode === 229) return;
+        if (e.key === "Backspace" && ta.selectionStart === 0 && ta.selectionEnd === 0 && i > 0) {
+          e.preventDefault();
+          const r = n.rows[i];
+          if (r.t === "ck") { r.t = "p"; r.on = false; persist(); return draw(i, 0); }
+          const prev = n.rows[i - 1], at = prev.v.length;
+          prev.v += r.v; n.rows.splice(i, 1); persist(); draw(i - 1, at);
+        }
+      };
+    });
+    ed.querySelectorAll(".box").forEach(b => b.onclick = () => { const i = +b.parentNode.dataset.i; n.rows[i].on = !n.rows[i].on; persist(); b.parentNode.classList.toggle("done", n.rows[i].on); });
+    if (focus != null) { const ta = ed.querySelectorAll("textarea")[focus]; if (ta) { ta.focus(); const c = caret == null ? ta.value.length : caret; ta.setSelectionRange(c, c); } }
+  };
+  draw(n.rows.length === 1 && !n.rows[0].v ? 0 : null);
+  // 목록 버튼: 지금 줄을 체크박스 항목으로 (다시 누르면 일반 줄). 제목 줄이면 아래에 새 체크박스 줄
+  const chk = pane.querySelector(".nt-chk");
+  chk.onmousedown = e => e.preventDefault();
+  chk.onclick = () => {
+    let i = cur;
+    if (i === 0) { n.rows.splice(1, 0, { t: "ck", v: "" }); i = 1; }
+    else { const r = n.rows[i]; r.t = r.t === "ck" ? "p" : "ck"; r.on = false; }
+    persist(); draw(i);
+  };
+  ed.onclick = e => { if (e.target === ed) { const tas = ed.querySelectorAll("textarea"); const ta = tas[tas.length - 1]; if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); } } };
+  const close = () => {
+    clearTimeout(saveT);
+    if (!noteText(n).trim()) S.userNotes = S.userNotes.filter(x => x !== n); else n.at = Date.now();
+    save(); document.activeElement && document.activeElement.blur();
+    appEl.classList.remove("inroom", "settled"); pane.style.animation = ""; pane.classList.add("out");
+    setTimeout(() => { pane.remove(); notesView(); }, 260);
+  };
+  pane.querySelector("[data-back]").onclick = close;
 }
 
 /* ---------- photos ---------- */
@@ -2513,26 +3205,37 @@ function bbDraw(typingWho) {
   const box = $("#bbm"); if (!box || !bbOpen) return;
   const r = bbRoom(bbOpen), ms = r.msgs;
   const seen = bbSeen ?? ms.length; bbSeen = ms.length;
-  let html = "";
+  let html = "", dk = 0;
+  // minUnreadFrom: 이 날짜부터는 안 읽은 숫자가 최소 1 (예: 밴드부 23일 — 승관이가 안 읽음)
+  const mf = r.minUnreadFrom || ((CONFIG.bubble.rooms.find(x => x.id === r.id) || {}).minUnreadFrom), minFrom = mf ? +mf.replace(/\D/g, "") : 0;
   ms.forEach((m, i) => {
-    if (m.date) { html += `<div class="bb-date">${esc(m.date)}</div>`; return; }
+    if (m.date) { const x = m.date.match(/(\d+)년 (\d+)월 (\d+)일/); if (x) dk = +x[1] * 10000 + +x[2] * 100 + +x[3]; html += `<div class="bb-date">${esc(m.date)}</div>`; return; }
     const p = ms[i - 1], n = ms[i + 1];
     const who = m.who || r.name;
     const first = !p || p.date || p.from !== m.from || (p.who || r.name) !== who || p.time !== m.time;
     const showT = !n || n.date || n.from !== m.from || (n.who || r.name) !== who || n.time !== m.time;
-    const unreadN = m.from === "me" ? (!m.read ? Math.max(0, (r.size ? r.size - 1 : 1) - (m.readN || 0)) : 0) : (m.cnt || 0);
+    let unreadN = m.from === "me" ? (!m.read ? Math.max(0, (r.size ? r.size - 1 : 1) - (m.readN || 0)) : 0) : (m.cnt || 0);
+    if (minFrom && dk >= minFrom) unreadN = Math.max(1, unreadN);
     const nw = i >= seen ? " new" : "";
     const meta = unreadN || showT ? `<span class="meta">${unreadN ? `<b>${unreadN}</b>` : ""}${showT ? esc(m.time) : ""}</span>` : "";
     if (m.from === "me") {
       html += `<div class="bbr me ${first ? "first" : ""}${nw}"><div class="bbline">${meta}<div class="bbb${m.cls ? " " + m.cls : ""}">${esc(m.text)}</div></div></div>`;
     } else {
       const color = r.size ? colorOf(who) : r.color;
-      html += `<div class="bbr them ${first ? "first" : ""}${nw}">${first ? bbAv(who, color, "sm") : '<div class="spacer"></div>'}<div class="col">${first ? `<span class="nm">${esc(who)}</span>` : ""}<div class="bbline"><div class="bbb${m.cls ? " " + m.cls : ""}">${esc(m.text)}</div>${meta}</div></div></div>`;
+      html += `<div class="bbr them ${first ? "first" : ""}${nw}">${first ? bbAv(who, color, "sm") : '<div class="spacer"></div>'}<div class="col">${first ? `<span class="nm">${esc(who)}</span>` : ""}<div class="bbline">${m.img ? `<button class="bbimg" data-img="${esc(m.img)}"><img src="${esc(m.img)}" alt="사진"></button>` : `<div class="bbb${m.cls ? " " + m.cls : ""}">${esc(m.text)}</div>`}${meta}</div></div></div>`;
     }
   });
   if (typingWho) html += `<div class="bbr them first${bbTyping ? "" : " new"}">${bbAv(typingWho, r.size ? colorOf(typingWho) : r.color, "sm")}<div class="col"><span class="nm">${esc(typingWho)}</span><div class="bbb bbdots"><i></i><i></i><i></i></div></div></div>`;
   bbTyping = !!typingWho;
   box.innerHTML = html;
+  // 사진 메시지: 누르면 크게 보기
+  box.querySelectorAll(".bbimg").forEach(b => b.onclick = () => {
+    const v = document.createElement("div"); v.className = "bbview";
+    v.innerHTML = `<img src="${esc(b.dataset.img)}" alt="">`;
+    v.onclick = () => { v.classList.add("out"); setTimeout(() => v.remove(), 200); };
+    // 대화방 판 안에 띄움 (앱 화면에 붙이면 대화방이 열린 동안 숨겨졌다가 나갈 때 번쩍 보임)
+    (box.closest(".bbpane") || appEl).appendChild(v);
+  });
   box.scrollTop = box.scrollHeight;
 }
 function fmtT(t) { const [h, m] = String(t).split(":").map(Number); if (isNaN(h)) return t; return `${h < 12 ? "오전" : "오후"} ${h % 12 || 12}:${String(m).padStart(2, "0")}`; }
@@ -2568,8 +3271,11 @@ function bbSend(id, text) {
     }
     if (sent && !done) {
       S.followUpDone = Object.assign(S.followUpDone || {}, { [cid]: true }); save();
-      setTimeout(() => { r.msgs.forEach(m => { if (m.from === "me") m.read = true; }); save(); if (bbOpen === id) bbDraw(); }, 1000);
-      let delay = 1600;
+      // meAuto: 1초 뒤 내 쪽에서 한 줄 더 보내고, 그다음 읽음 → 답장
+      const extra = A.meAuto ? 1100 : 0;
+      if (A.meAuto) setTimeout(() => { r.msgs.push({ from: "me", text: A.meAuto, time: hhmm() }); r.lastAt = Date.now(); save(); if (bbOpen === id) bbDraw(); }, 1000);
+      setTimeout(() => { r.msgs.forEach(m => { if (m.from === "me") m.read = true; }); save(); if (bbOpen === id) bbDraw(); }, 1000 + extra);
+      let delay = 1600 + extra;
       A.followUp.forEach(t => {
         setTimeout(() => { if (bbOpen === id) bbDraw(r.name); }, delay);
         delay += 700 + Math.min(2000, t.length * 70);
@@ -2597,6 +3303,7 @@ function bbSend(id, text) {
     if (t0 && t0.next) trig = Object.assign({ isNext: true }, t0.next);
   } else
   // once: 처음 한 번만 답하고, 그 뒤로 같은 키워드에는 아무도 답하지 않음
+  if (trig && !S.dFail) { S.dFail = true; save(); }   // 단체방 이벤트 시작 → D루트 실패
   if (trig && trig.once && !trig.isNext) {
     const tk = `${id}#${ti}`;
     if ((S.trigDone || {})[tk] || (window.trigBusy || {})[tk]) return;
@@ -2677,12 +3384,123 @@ function fireCallEvent(nk, wait) {
   S.evDone = Object.assign(S.evDone || {}, { [nk]: true }); save();
   setTimeout(() => {
     const d = playLines(ev.room, ev.lines);
-    setTimeout(() => { S.evFinished = Object.assign(S.evFinished || {}, { [nk]: true }); save(); }, d);
+    setTimeout(() => { S.evFinished = Object.assign(S.evFinished || {}, { [nk]: true }); save(); if (ev.timer) routeTimerStart(ev.timer); }, d);
     if (ev.then) setTimeout(() => startAfter(ev.then), d + (ev.thenDelay || 3000));
     // 그 뒤로 이 방은 답장 없음 + 내 메시지 읽음 숫자 고정
     if (ev.thenMute != null) { S.roomMute = Object.assign(S.roomMute || {}, { [ev.room]: ev.thenMute }); save(); }
   }, wait);
 }
+/* ---------- 선택지 타이머 (A루트) ---------- */
+// S.routeT = { left: 남은 ms, at: 흐르기 시작한 시각(멈춰 있으면 null) }
+function routeTimerStart(ms) { if ((S.routeA || {}).shown) return; S.routeT = { left: ms, at: Date.now() }; save(); }
+function routeTimerPause() { const T = S.routeT; if (!T || T.at == null) return; T.left = Math.max(0, T.left - (Date.now() - T.at)); T.at = null; save(); }
+function routeTimerResume() { const T = S.routeT; if (!T || T.at != null) return; T.at = Date.now(); save(); }
+function routeCheck() {
+  if ((S.routeA || {}).shown || S.ending) return;
+  // D루트: 잠금 해제 뒤 2분 동안 아무 조건도 건드리지 않았으면 승관이에게서 전화
+  const BF = S.bFlags || {};
+  if (BF.blog || BF.blog2 || BF.find) S.dFail = true;
+  if (S.dAt && !S.dFail && !call && Date.now() - S.dAt >= ((CONFIG.routeD || {}).wait || 120000)) {
+    S.routeA = { shown: true, choice: "call", route: "D" }; S.routeT = null; S.bWin = null; save();
+    return routeGo("call", "D");
+  }
+  // B루트 창
+  const W = S.bWin;
+  if (W && !call) {
+    const F = S.bFlags || {}, now = Date.now();
+    // B루트: 사태 요약만 읽고(행동 요령은 안 읽음) + 승관 에어팟 확인. 행동 요령까지 읽었다면 C루트 (나중에 추가)
+    // 블로그 글을 보고 있는 동안은 띄우지 않음 (닫은 뒤 2.5초부터)
+    if (F.blog && !F.blog2 && F.find && now >= W.msgsAt && now >= (W.readyAt || 0) && !(current === "internet" && document.querySelector("#app .blogpane:not(.out)"))) { S.bWin = null; return routeShow("B"); }
+    // C루트: B루트 조건 + "행동 요령"까지 열람 (블로그를 닫으면 바로 / 에어팟 확인이 마지막이면 2.5초 뒤 / 콜백이 마지막이면 원우 마지막 메시지 1초 뒤)
+    if (F.blog && F.blog2 && F.find && now >= W.msgsAt && now >= (W.readyAtC || 0) && !(current === "internet" && document.querySelector("#app .blogpane:not(.out)"))) { S.bWin = null; return routeShow("C"); }
+    if (now >= W.deadline) { S.bWin = null; return routeShow("A"); }
+  }
+  const T = S.routeT; if (!T || T.at == null) return;
+  if (Date.now() - T.at < T.left) return;
+  if (call) return;   // 통화 중이면 끝난 뒤에
+  S.routeT = null; routeShow();
+}
+function routeShow(kind = "A") {
+  const R = kind === "B" ? Object.assign({}, CONFIG.route, CONFIG.routeB) : kind === "C" ? Object.assign({}, CONFIG.route, CONFIG.routeC) : kind === "B1" ? Object.assign({}, CONFIG.route, CONFIG.routeB1) : CONFIG.route;
+  S.routeA = { shown: true, choice: null, route: kind }; S.routeT = null; S.bWin = null; save();
+  if ($("#routeov")) return;
+  const ov = document.createElement("div"); ov.id = "routeov"; ov.className = "route-ov";
+  ov.innerHTML = `<div class="route-box"><p>${R.title.split("\n").map(esc).join("<br>")}</p>${R.options.map(o => `<button data-k="${esc(o.key)}">${esc(o.text)}</button>`).join("")}</div>`;
+  ov.addEventListener("pointerdown", e => e.stopPropagation());
+  ov.querySelectorAll("[data-k]").forEach(b => b.onclick = () => {
+    S.routeA.choice = b.dataset.k; save();
+    ov.classList.add("out"); setTimeout(() => ov.remove(), 400);
+    try { routeGo(b.dataset.k, kind); } catch (e) { console.error(e); }
+  });
+  screen.appendChild(ov);
+}
+// 고른 뒤의 진행 (나중에 채울 자리)
+function routeGo(key, kind = "A") {
+  const R = ((kind === "B" ? CONFIG.routeScenesB : kind === "C" ? CONFIG.routeScenesC : kind === "B1" ? CONFIG.routeScenesB1 : kind === "D" ? CONFIG.routeScenesD : CONFIG.routeScenes) || {})[key]; if (!R) return;
+  // cont: 지금 통화를 그대로 이어서 진행 (통화가 없으면 엔딩으로 바로)
+  if (R.cont) {
+    if (!call) return showEnding(R.ending);
+    call.clock = setInterval(() => { const s = Math.floor((Date.now() - call.t0) / 1000); setStat(`${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`); }, 500);
+    return setTimeout(() => run({ start: R.script, onEnd: () => R.next ? routeShow(R.next) : showEnding(R.ending) }, "start", 0), 600);
+  }
+  setTimeout(() => forcedCall(R), R.delay != null ? R.delay : 1000);
+}
+// 거절·종료 버튼이 없는 수신 전화 → 대본 → 엔딩
+function forcedCall(R) {
+  if (call) { stopCall(); call = null; }
+  const c = contact(R.caller);
+  call = { id: R.caller, type: "in", t0: null, timers: [], forced: true };
+  callShell(c, c.name, "휴대전화");
+  callEl.classList.add("incoming", "forced");
+  call.ring = startRingtone();
+  $("#ctrl").innerHTML = `<div class="endrow"><button class="greenbtn" style="width:76px;height:76px" id="accept" aria-label="응답">${ICON.phone}</button></div>`;
+  $("#accept").onclick = () => {
+    callEl.classList.remove("incoming"); controls();
+    const er = $("#ctrl .endrow"); if (er) er.style.visibility = "hidden";   // 끊기 버튼 없음
+    connect({ start: R.script, onEnd: () => R.next ? routeShow(R.next) : showEnding(R.ending) });
+  };
+}
+// 휴대폰을 떨어뜨린 것처럼: 화면이 짧게 흔들리고 금이 감 (다시하기 전까지 남음, 맨 위 레이어)
+function screenCrack(shake) {
+  if (shake) { screen.classList.remove("shake-drop"); void screen.offsetWidth; screen.classList.add("shake-drop"); S.cracked = true; save(); }
+  if ($("#crack")) return;
+  const ov = document.createElement("div"); ov.id = "crack"; ov.className = "crack";
+  ov.innerHTML = `<img src="media/crack.png?v=2" alt="">`;
+  screen.appendChild(ov);
+}
+setTimeout(() => { if (S && S.cracked) screenCrack(false); }, 300);
+// 엔딩 사진은 미리 불러 둠
+setTimeout(() => {
+  const all = [CONFIG.routeScenes, CONFIG.routeScenesB, CONFIG.routeScenesB1, CONFIG.routeScenesC, CONFIG.routeScenesD].flatMap(o => Object.values(o || {})).map(R => R.ending && R.ending.img).filter(Boolean);
+  window.__endImgs = [...new Set(all)].map(src => { const i = new Image(); i.src = src; return i; });
+}, 1500);
+function showEnding(E) {
+  S.ending = E; save();
+  if (call) { stopCall(); call = null; }
+  const ov = document.createElement("div"); ov.className = "ending"; ov.id = "ending";
+  ov.innerHTML = `<div class="end-in" style="--ec:${+E.no <= 2 ? "#ff4b4b" : +E.no <= 4 ? "#ffad2e" : "#4a9dff"}"><div class="end-no">ENDING ${esc(String(E.no))}</div><h2>${esc(E.title)}</h2><div class="end-dots">${[1, 2, 3, 4, 5, 6].map(n => `<i class="${n === +E.no ? "on" : ""}"></i>`).join("")}</div>${E.img ? `<img src="${esc(E.img)}" alt="">` : ""}<p>${String(E.line).split("\n").map(esc).join("<br>")}</p><button id="endretry">다시하기</button></div>`;
+  ov.addEventListener("pointerdown", e => e.stopPropagation());
+  screen.appendChild(ov);
+  // 사진을 다 불러온 뒤에 순서대로 나타나기 시작 (늦게 뜨는 일 없게). 오래 걸리면 2초 뒤엔 그냥 시작
+  const inEl = ov.querySelector(".end-in"), im = ov.querySelector("img"); let started = false;
+  const go = () => { if (!started) { started = true; inEl.classList.add("go"); } };
+  if (im) { (im.decode ? im.decode() : Promise.reject()).then(go, () => { im.complete ? go() : im.addEventListener("load", go, { once: true }); }); setTimeout(go, 2000); } else go();
+  setTimeout(() => { callEl.hidden = true; callEl.innerHTML = ""; }, 1200);
+  $("#endretry").onclick = () => { window.__resetting = true; try { localStorage.removeItem(KEY); } catch (e) {} location.reload(); };
+}
+// 엔딩을 본 상태로 다시 열면 엔딩 화면부터
+setTimeout(() => {
+  if (S && S.ending && !$("#ending")) showEnding(S.ending);
+  // 고른 뒤 전화가 오기 전에(또는 통화 중에) 페이지가 닫혔다면 다시 그 장면부터
+  else if (S && (S.routeA || {}).choice) routeGo(S.routeA.choice, S.routeA.route || "A");
+}, 300);
+setInterval(routeCheck, 500);
+setTimeout(() => {
+  // 페이지를 다시 열었을 때: 통화 중에 멈춘 채로 닫혔다면 다시 흐르게 / 선택지를 띄웠는데 아직 안 골랐으면 다시 띄움
+  if (S.routeT && S.routeT.at == null && !call) routeTimerResume();
+  if ((S.routeA || {}).shown && !S.routeA.choice) { S.routeA.shown = false; routeShow(S.routeA.route || "A"); }
+  routeCheck();
+}, 800);
 // afterCall 항목을 한 번만 시작 (통화 외의 계기로)
 function startAfter(cid) {
   const A = (CONFIG.afterCall || {})[cid];
@@ -2703,16 +3521,157 @@ function momentView() {
 }
 
 /* ---------- internet ---------- */
+// 검색: 기록에 넣고, 결과 페이지가 있는 검색어(CONFIG.webPages)면 결과 화면을 보여 줌
+function webSearch(q) {
+  if (!q) return;
+  S.searches = [q, ...(S.searches || []).filter(x => x !== q)].slice(0, 40); save();
+  const key = q.replace(/\s+/g, "");
+  const old = appEl.querySelector(".webpane");
+  webView();   // 뒤의 최근 검색 화면도 새 기록으로 갱신
+  if ((CONFIG.webPages || {})[key]) webResult(key, q, !!old);
+}
+function webResult(key, q, instant) {
+  const P = CONFIG.webPages[key];
+  const glass = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.6-4.6"/></svg>';
+  const globe = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/></svg>';
+  const dots = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>';
+  // 결과 화면은 오른쪽에서 밀려 들어오는 판으로 (뒤로 가면 다시 오른쪽으로 나감)
+  const pane = document.createElement("div");
+  pane.className = "webpane";
+  if (instant) pane.style.animation = "none";
+  appEl.appendChild(pane);
+  pane.innerHTML = `<div class="web-body wr">
+      <div class="wr-q">${glass}<span class="grow">${esc(q)}</span></div>
+      <div class="wr-tabs">${P.tabs.map((t, i) => `<span class="${i === 0 ? "on" : ""}">${esc(t)}</span>`).join("")}</div>
+      <div class="wr-kp"><div class="wr-kh"><div><h2>${esc(P.title)}</h2><div class="wr-sub">${esc(P.sub)}</div></div><span class="wr-share"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg></span></div>
+        <div class="wr-imgs"><div class="r1"><i class="w2"><img src="media/chamo1.jpg" alt="" loading="lazy"></i><i><img src="media/chamo2.jpg" alt="" loading="lazy"></i><i><img src="media/chamo3.jpg" alt="" loading="lazy"></i></div><div class="r2"><i class="w07"><img src="media/chamo4.jpg" alt="" loading="lazy"></i><i class="w2"><img src="media/chamo5.jpg" alt="" loading="lazy"></i><i><img src="media/chamo6.jpg" alt="" loading="lazy"></i></div></div>
+        <p class="wr-desc">${esc(P.desc)}</p><div class="wr-src">출처: <a>${esc(P.src)}</a></div></div>
+      ${[...P.results, ...(P.faq ? [{ faq: P.faq }] : []), ...(P.blogs || [])].map(r => r.faq ? `<div class="wr-faq"><h3>관련 질문</h3>${r.faq.map(f => `<div class="wr-qa"><button class="wr-qb"><span>${esc(f.q)}</span><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></i></button></div>`).join("")}</div>` : `<div class="wr-res${r.post ? " wr-link" : ""}"${r.post ? ` data-post="${(P.blogs || []).indexOf(r)}"` : ""}><div class="wr-site">${r.favText ? `<span class="wr-fav wr-fav-t" style="background:${esc(r.favBg || "#1aa77a")};color:${esc(r.favColor || "#fff")}">${esc(r.favText)}</span>` : `<span class="wr-fav">${globe}</span>`}<div class="grow"><b>${esc(r.site)}</b><small>${esc(r.url)}</small></div><span class="wr-more">${dots}</span></div><a class="wr-title">${esc(r.title)}</a><div class="wr-body"><p>${esc(r.text)}</p>${r.thumb ? `<i class="wr-th"><img src="${esc(r.thumb)}" alt="" loading="lazy"></i>` : ""}</div></div>`).join("")}
+    </div>
+    <form class="web-bar" id="webf"><button type="button" class="web-x" id="webback" aria-label="뒤로"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="web-pill"><input id="webq" autocomplete="off" enterkeyhint="go" value="${esc(q)}" aria-label="검색"></div><button type="button" class="web-x" id="webx" aria-label="닫기"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></form>`;
+  pane.querySelector("#webback").onclick = () => { document.activeElement && document.activeElement.blur(); pane.style.animation = ""; pane.classList.add("out"); setTimeout(() => pane.remove(), 260); };
+  pane.querySelector("#webx").onclick = () => closeApp();
+  pane.querySelectorAll("[data-post]").forEach(el => el.onclick = () => blogOpen(P.blogs[+el.dataset.post]));
+  pane.querySelector("#webf").onsubmit = e => { e.preventDefault(); webSearch(pane.querySelector("#webq").value.trim()); };
+}
+// 블로그를 닫으면 그때부터 2.5초 뒤에 B루트 선택지 가능
+function blogClosed() { if (S.bWin) { S.bWin.readyAt = Date.now() + 2500; S.bWin.readyAtC = Date.now(); save(); setTimeout(routeCheck, 50); } }
+// 블로그 글 화면 (오른쪽에서 밀려 들어옴). 좋아요는 눌렀다 뗐다 가능
+function blogOpen(r, sub) {
+  const base = r.post, B = sub ? Object.assign({}, base, sub) : base, key = "blog:" + B.address + (sub ? "#" + sub.title : "");
+  // 루트 조건 기록: blog = "현재 캐모마일 사태 요약", blog2 = "현재 사태 행동 요령" (blog2 까지 열면 B가 아닌 C루트 대상)
+  S.bFlags = Object.assign(S.bFlags || {}, sub ? { blog2: true } : { blog: true });
+  if (S.bWin) S.bWin.readyAt = Date.now() + 2500;   // 콜백을 먼저 했다면 조건을 채운 뒤 2.5초 후 선택지
+  save(); setTimeout(routeCheck, 300);
+  const liked = () => !!(S.blogLikes || {})[key];
+  const pane = document.createElement("div");
+  pane.className = "webpane blogpane";
+  appEl.appendChild(pane);
+  const check = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#03c75a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>';
+  const heartO = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg>';
+  const heartS = '<svg width="20" height="20" viewBox="0 0 24 24" fill="#ff4f7b"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg>';
+  const cmt = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3.5c4.7 0 8.5 3.4 8.5 7.7s-3.8 7.7-8.5 7.7c-1 0-2-.1-2.9-.4L4.5 20l1.2-3.6C4.3 15 3.5 13.2 3.5 11.2 3.5 6.9 7.3 3.5 12 3.5z"/><circle cx="8.5" cy="11.2" r="1" fill="currentColor"/><circle cx="12" cy="11.2" r="1" fill="currentColor"/><circle cx="15.5" cy="11.2" r="1" fill="currentColor"/></svg>';
+  const send = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M21 3L3 10.5l7.5 3L13.5 21z"/><path d="M10.5 13.5L21 3"/></svg>';
+  const av = B.avatarEmoji ? `<div class="bp-av bp-emo" style="background:${esc(B.avatarBg || "#ff4f6d")}"><span>${esc(B.avatarEmoji)}</span></div>` : '<div class="bp-av"><svg viewBox="0 0 40 40"><circle cx="20" cy="15" r="7" fill="#c9cdd3"/><path d="M7 34c0-7 6-11 13-11s13 4 13 11" fill="#c9cdd3"/></svg></div>';
+  const likeRow = () => `<div class="bp-likes"><button class="bp-heart${liked() ? " on" : ""}" aria-label="공감">${heartO}</button><span class="bp-cnt">${heartS}<b>${(B.likes + (liked() ? 1 : 0)).toLocaleString()}</b></span><span class="bp-ic">${cmt}<b>${B.comments.toLocaleString()}</b></span><span class="bp-ic">${send}<b>${B.shares.toLocaleString()}</b></span></div>`;
+  pane.innerHTML = `<div class="web-body bp">
+      <div class="bp-head"><b class="bp-logo">blog</b><span class="bp-name"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>${esc(B.blogName)}</span><span class="bp-tools"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-3"/><circle cx="15" cy="9" r="4"/><path d="M18 12l3 3"/></svg><svg width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span></div>
+      <div class="bp-top"><div class="bp-cat">${esc(B.category)}</div><h1>${esc(B.title)}</h1>${av}<div class="bp-au">${esc(B.author)} ${check}</div><div class="bp-date">${esc(B.date)}</div><span class="bp-nb">+ 이웃추가</span></div>
+      <div class="bp-main"><p class="bp-sub">${esc(B.title)}</p>${B.image ? `<img class="bp-img" src="${esc(B.image)}" alt="">` : ""}${B.body.map(l => l && l.h ? `<p class="bp-h">${esc(l.h)}</p>` : l && l.img ? `<img class="bp-img" src="${esc(l.img)}" alt="">` : l && l.cap ? `<p class="bp-cap">${esc(l.cap)}</p>` : l ? `<p>${esc(l)}</p>` : `<div class="bp-gap"></div>`).join("")}
+        ${B.tags && B.tags.length ? `<div class="bp-tags">${B.tags.map(t => `<span>#${esc(t)}</span>`).join("")}</div>` : ""}
+        <div class="bp-lk">${likeRow()}</div></div>
+      <div class="bp-card"><div class="bp-cardtop">${av}<span class="bp-nb2">이웃추가</span></div><div class="bp-cname"><b>${esc(B.author)}</b>${check}<span>이웃 ${esc(B.neighbors)}명</span></div><p>${esc(B.intro)}</p></div>
+      ${base.more ? `<div class="bp-more"><h3>이 블로그 <em>${esc(B.category)}</em> 카테고리 글<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M14 6l6 6-6 6"/></svg></h3>${[...(base.more || []).map((m, i) => ({ m, i })), { m: null, i: -1 }].map(({ m, i }) => { const p = m ? Object.assign({}, base, m) : base, k = "blog:" + base.address + (m ? "#" + m.title : ""); return { title: p.title, when: p.when || "", likes: p.likes + ((S.blogLikes || {})[k] ? 1 : 0), comments: p.comments, thumb: (p.body.find(x => x && x.img) || {}).img, cur: p.title === B.title, i }; }).map(m => `<div class="bp-mi${m.cur ? " now" : ""}" data-mi="${m.i}"><div class="grow"><b>${esc(m.title)}</b><span>${esc(m.when)} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg>${m.likes} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.5c4.7 0 8.5 3.4 8.5 7.7s-3.8 7.7-8.5 7.7c-1 0-2-.1-2.9-.4L4.5 20l1.2-3.6C4.3 15 3.5 13.2 3.5 11.2 3.5 6.9 7.3 3.5 12 3.5z"/></svg>${m.comments}</span></div>${m.thumb ? `<i class="bp-mth"><img src="${esc(m.thumb)}" alt=""></i>` : ""}</div>`).join("")}</div>` : ""}
+    </div>
+    <div class="bp-dock">${likeRow()}</div>
+    <form class="web-bar" onsubmit="return false"><button type="button" class="web-x bp-back" aria-label="뒤로"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="web-pill bp-url"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg><span class="ellip">${esc(B.address)}</span></div><button type="button" class="web-x bp-x" aria-label="닫기"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></form>`;
+  const bind = () => pane.querySelectorAll(".bp-heart").forEach(h => h.onclick = () => {
+    S.blogLikes = Object.assign(S.blogLikes || {}, { [key]: !liked() }); save();
+    pane.querySelectorAll(".bp-likes").forEach(row => { row.outerHTML = likeRow(); });
+    bind();
+    if (liked()) pane.querySelectorAll(".bp-heart").forEach(x => x.classList.add("pop"));
+  });
+  bind();
+  // 본문 안의 공감 줄이 화면에 보이면 아래 고정 줄은 숨김
+  const body = pane.querySelector(".bp"), dock = pane.querySelector(".bp-dock"), inner = pane.querySelector(".bp-lk");
+  const sync = () => { const a = inner.getBoundingClientRect(), b = body.getBoundingClientRect(); dock.classList.toggle("hide", a.top < b.bottom - 10); };
+  body.addEventListener("scroll", sync, { passive: true }); requestAnimationFrame(sync); setTimeout(sync, 400);
+  pane.querySelectorAll("img").forEach(im => im.addEventListener("load", sync));
+  pane.querySelectorAll(".bp-mi:not(.now)").forEach(el => el.onclick = () => { const i = +el.dataset.mi; blogOpen(r, i >= 0 ? base.more[i] : null); });
+  pane.querySelector(".bp-back").onclick = () => {
+    if (!pane.previousElementSibling || !pane.previousElementSibling.classList.contains("blogpane")) blogClosed(); pane.style.animation = ""; pane.classList.add("out"); setTimeout(() => pane.remove(), 260); };
+  pane.querySelector(".bp-x").onclick = () => closeApp();
+}
+/* ---------- 나의 찾기 ---------- */
+const FM = { W: 900, H: 1300, left: -80, top: -110 };   // 지도 크기(단위)와 처음 보이는 위치
+function findMapSvg() {
+  const { W, H } = FM;
+  const xs = [0, 92, 262, 424, 602, 764, 900], ys = [0, 152, 332, 522, 702, 884, 1062, 1222, 1300];
+  const rw = [0, 9, 13, 9, 11, 9, 0], rh = [0, 9, 16, 9, 9, 11, 9, 9, 0];
+  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  let b = "";
+  const park = (i, j) => (i === 3 && (j === 0 || j === 1)) || (i === 4 && j === 1);
+  for (let i = 0; i < xs.length - 1; i++) for (let j = 0; j < ys.length - 1; j++) {
+    const x0 = xs[i] + rw[i] / 2 + 8, x1 = xs[i + 1] - rw[i + 1] / 2 - 8, y0 = ys[j] + rh[j] / 2 + 8, y1 = ys[j + 1] - rh[j + 1] / 2 - 8;
+    if (park(i, j)) { b += `<rect x="${x0 - 4}" y="${y0 - 4}" width="${x1 - x0 + 8}" height="${y1 - y0 + 8}" rx="10" fill="#cfe8c2"/>`; continue; }
+    // 블록을 2~4개 건물로 나눔
+    const n = 2 + Math.floor(rnd() * 3), horiz = rnd() < .5; let p = horiz ? x0 : y0; const end = horiz ? x1 : y1;
+    for (let k = 0; k < n; k++) {
+      const len = k === n - 1 ? end - p : (end - p) / (n - k) * (0.7 + rnd() * 0.6);
+      if (horiz) b += `<rect x="${p}" y="${y0}" width="${Math.max(10, len - 6)}" height="${y1 - y0}" rx="3" fill="#e7e2d8"/>`;
+      else b += `<rect x="${x0}" y="${p}" width="${x1 - x0}" height="${Math.max(10, len - 6)}" rx="3" fill="#e7e2d8"/>`;
+      p += len;
+    }
+  }
+  let roads = "";
+  xs.forEach((x, i) => { if (rw[i]) roads += `<path d="M${x} 0V${H}" stroke-width="${rw[i] + 4}"/>`; });
+  ys.forEach((y, j) => { if (rh[j]) roads += `<path d="M0 ${y}H${W}" stroke-width="${rh[j] + 4}"/>`; });
+  const T = (x, y, t, o = {}) => `<text x="${x}" y="${y}"${o.rot ? ` transform="rotate(90 ${x} ${y})"` : ""} fill="${o.c || "#8a8578"}" font-size="${o.s || 11}">${t}</text>`;
+  return `<svg class="fm-map" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+    <rect width="${W}" height="${H}" fill="#f3f0e9"/>${b}
+    <path d="M0 805 C 160 770 300 830 470 800 C 640 770 760 815 900 790" stroke="#aad3f2" stroke-width="22" fill="none"/>
+    <g stroke="#fff" stroke-linecap="square" fill="none">${roads}</g>
+    <g font-family="-apple-system,'Apple SD Gothic Neo',sans-serif" text-anchor="middle">
+      ${T(520, 328, "세봉로", { s: 12 })}${T(266, 640, "구청길", { rot: 1 })}${T(600, 175, "세봉공원", { c: "#5f8f4b", s: 12 })}${T(120, 788, "세봉천", { c: "#5b8fb8", s: 12 })}${T(510, 960, "세봉고등학교")}${T(178, 250, "세봉구청")}${T(680, 1058, "세봉중앙로", { s: 12 })}
+    </g></svg>`;
+}
+function findView() {
+  appEl.classList.add("fm");
+  const F = CONFIG.findmy;
+  const mk = d => `<button class="fm-pin${d.mine ? " me" : ""}" style="left:${d.x / FM.W * 100}%;top:${d.y / FM.H * 100}%" data-d="${F.devices.indexOf(d)}"><img src="${esc(d.img || F.icons[d.icon])}" alt=""></button>`;
+  const placed = [], pins = F.devices.filter(d => { const k = d.x + "," + d.y; if (placed.includes(k)) return false; placed.push(k); return true; });
+  const tab = (ic, t, on) => `<span class="${on ? "on" : ""}">${ic}<small>${t}</small></span>`;
+  appEl.innerHTML = `<div class="fm-wrap"><div class="fm-mapbox" id="fmmap" style="left:${FM.left / 390 * 100}%;width:${FM.W / 390 * 100}%">${findMapSvg()}<span class="fm-me" style="left:${F.devices[0].x / FM.W * 100}%;top:${F.devices[0].y / FM.H * 100}%"></span>${pins.map(mk).join("")}</div></div>
+    <div class="fm-ctl"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z" opacity=".9"/></svg><i></i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 4L3 11l7 3 3 7z"/></svg></div>
+    <div class="fm-sheet"><div class="fm-grab"></div><div class="fm-h"><h2>기기</h2><span class="fm-plus">+</span></div>
+      <div class="fm-list">${F.devices.map((d, i) => `<button class="fm-row" data-d="${i}"><img src="${esc(d.img || F.icons[d.icon])}" alt=""><div class="grow"><b>${esc(d.name)}</b><small>${esc(d.where)}</small></div><span class="fm-r">${d.mine ? "사용자가 소지함" : esc(d.dist || "")}</span></button>`).join("")}</div>
+      <nav class="fm-tabs">${tab('<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="8" r="3.4"/><circle cx="16.5" cy="9" r="2.8"/><path d="M2.5 19c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6z"/><path d="M15.5 13.2c3.3-.4 6 1.6 6 5.3h-5"/></svg>', "사람")}${tab('<svg width="28" height="26" viewBox="0 0 28 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="17" height="12" rx="1.5"/><path d="M1 19h19"/><rect x="19.5" y="7" width="7" height="13" rx="1.5" fill="#fff"/></svg>', "기기", true)}${tab('<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/></svg>', "물품")}${tab('<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.5l7.5 3 3 7.5z"/></svg>', "나")}</nav>
+    </div>`;
+  // 기기를 누르면 지도에서 그 위치로 이동
+  const map = $("#fmmap");
+  map.style.top = FM.top * (appEl.clientWidth || 390) / 390 + "px";
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const focus = i => {
+    if (F.devices[i].target) { S.bFlags = Object.assign(S.bFlags || {}, { find: true }); if (S.bWin) S.bWin.readyAt = S.bWin.readyAtC = Date.now() + 2500; save(); setTimeout(routeCheck, 300); }
+    const d = F.devices[i], aw = appEl.clientWidth, ah = appEl.clientHeight, u = aw / 390;
+    const L = FM.left * u, Tp = FM.top * u, visH = ah * 0.52;
+    const tx = clamp(aw / 2 - (L + d.x * u), aw - (L + FM.W * u), -L), ty = clamp(visH * 0.55 - (Tp + d.y * u), visH - (Tp + FM.H * u), -Tp);
+    map.style.transform = `translate(${tx}px, ${ty}px)`; appEl.querySelectorAll(".fm-pin").forEach(p => p.classList.toggle("sel", F.devices[+p.dataset.d].x === d.x && F.devices[+p.dataset.d].y === d.y)); };
+  appEl.querySelectorAll("[data-d]").forEach(el => el.onclick = () => focus(+el.dataset.d));
+}
 function webView() {
   appEl.classList.add("web");
   if (!S.searchSeeded) { S.searches = [...(S.searches || []), ...[...CONFIG.searches].reverse()].filter((q, i, a) => a.indexOf(q) === i); S.searchSeeded = true; save(); }
   if (S.searches) S.searches = S.searches.map(q => q === "풍선ㄴ ㅏㅂ치" ? "꽃 풍선 납치" : q);
+  // 예전에 기본으로 들어 있던 검색어 정리 (한 번만)
+  if (!S.searchPruned1) { S.searches = (S.searches || []).filter(q => q !== "캐모매ㅏ일" && q !== "캐모마일 풍선"); S.searchPruned1 = true; save(); }
   const list = S.searches || [];
   const glass = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.6-4.6"/></svg>';
   appEl.innerHTML = `<div class="web-body">${list.length ? `<div class="web-rh"><span>최근 검색</span><button id="webclr">모두 지우기</button></div>${list.map((q, i) => `<div class="web-r">${glass}<span class="grow ellip">${esc(q)}</span><button class="web-fill" data-q="${i}" aria-label="검색창에 넣기"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9.5"/><path d="M15 9l-6 6M9 10.5V15h4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>`).join("")}` : ""}</div>
     <form class="web-bar" id="webf"><div class="web-pill"><input id="webq" autocomplete="off" enterkeyhint="go" placeholder="검색 또는 웹사이트 이름 입력" aria-label="검색 또는 웹사이트 이름 입력"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg></div><button type="button" class="web-x" id="webx" aria-label="닫기"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></form>`;
   $("#webx").onclick = () => closeApp();
-  $("#webf").onsubmit = e => { e.preventDefault(); const q = $("#webq").value.trim(); if (!q) return; S.searches = [q, ...(S.searches || []).filter(x => x !== q)].slice(0, 40); save(); webView(); };
+  $("#webf").onsubmit = e => { e.preventDefault(); webSearch($("#webq").value.trim()); };
+  appEl.querySelectorAll(".web-r .grow").forEach((el, i) => { el.style.cursor = "pointer"; el.onclick = () => webSearch(list[i]); });
   const clr = $("#webclr"); if (clr) clr.onclick = () => { S.searches = []; save(); webView(); };
   appEl.querySelectorAll(".web-fill").forEach(b => b.onclick = () => { const inp = $("#webq"); inp.value = list[+b.dataset.q]; inp.focus(); });
 }
@@ -2739,7 +3698,7 @@ function lensView(tab) {
     grid: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>',
     tag: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="10" r="3"/><path d="M6.5 19c1-3 3-4 5.5-4s4.5 1 5.5 4"/></svg>'
   };
-  const tabs = `<nav class="ln-tabs"><button data-t="feed" aria-label="홈">${I.home}</button><button aria-label="릴스">${I.reel}</button><button aria-label="메시지">${I.send}<span class="dot"></span></button><button aria-label="검색">${I.search}</button><button data-t="me" class="${tab === "me" ? "on" : ""}" aria-label="내 프로필"><span class="me">${G_AV}</span></button></nav>`;
+  const tabs = `<nav class="ln-tabs"><button data-t="feed" aria-label="홈">${I.home}</button><button aria-label="릴스">${I.reel}</button><button aria-label="메시지">${I.send}</button><button aria-label="검색">${I.search}</button><button data-t="me" class="${tab === "me" ? "on" : ""}" aria-label="내 프로필"><span class="me">${G_AV}</span></button></nav>`;
   let body;
   if (tab === "me") {
     const M = L.me;
@@ -2748,7 +3707,7 @@ function lensView(tab) {
     const addp = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="14" cy="8" r="3.6"/><path d="M7.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M2.5 11h6M5.5 8v6"/></svg>';
     const grid9 = '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">' + [0, 1, 2].map(r => [0, 1, 2].map(c => `<rect x="${3 + c * 6.5}" y="${3 + r * 6.5}" width="5" height="5" rx="1"/>`).join("")).join("") + '</svg>';
     const repost = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13V9a2 2 0 012-2h11"/><path d="M16 4l3 3-3 3"/><path d="M18 11v4a2 2 0 01-2 2H5"/><path d="M8 20l-3-3 3-3"/></svg>';
-    body = `<div class="lp-top2"><span style="display:grid">${I.plus}</span><div class="lp-id"><b>${esc(M.handle)}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg><i></i></div><span style="display:grid">${ham}</span></div>
+    body = `<div class="lp-top2"><span style="display:grid">${I.plus}</span><div class="lp-id"><b>${esc(M.handle)}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div><span style="display:grid">${ham}</span></div>
       <div class="ln-scroll"><div class="lp-row"><div class="lp-avw">${av()}<span class="lp-plus">+</span></div><div class="lp-side"><div class="lp-name">${esc(M.name || "")}</div><div class="lp-stats"><div><b>${M.posts.length}</b><span>게시물</span></div><div><b>${M.followers}</b><span>팔로워</span></div><div><b>${M.following}</b><span>팔로잉</span></div></div></div></div>
       <div class="lp-banner"><span>＋ 배너 추가</span></div>
       <div class="lp-btns3"><span>프로필 편집</span><span>프로필 공유</span><span class="sq">${addp}</span></div>
@@ -2757,10 +3716,17 @@ function lensView(tab) {
   } else {
     body = `<div class="ln-head"><span style="display:grid">${I.plus}</span><h1>gram<small>⌄</small></h1><span class="ic">${I.heart}</span></div>
       <div class="ln-scroll"><div class="ln-stories"><div class="ln-st me"><div class="ring"><div>${G_AV}</div><span class="plus">+</span></div>내 스토리</div>${L.stories.map(h => `<div class="ln-st"><div class="ring"><div>${G_AV}</div></div><span class="ellip" style="max-width:86px">${esc(h)}</span></div>`).join("")}</div>
-      ${L.feed.map(p => `<article class="ln-post"><div class="ln-ph">${p.emoji ? `<div class="av ln-emo" style="background:${esc(p.emojiBg || "#ff5a76")}"><span>${esc(p.emoji)}</span></div>` : av()}<div class="grow"><b>${esc(p.user)}</b>${p.sub ? `<span>${esc(p.sub)}</span>` : ""}</div><span class="fl">팔로우</span>${I.menu}</div>${p.video ? `<div class="ln-img ln-vid">${p.poster ? `<img class="ln-poster" src="${esc(p.poster)}" alt="">` : ""}<video poster="${esc(p.poster || "")}" playsinline webkit-playsinline loop preload="metadata"><source src="${esc(p.video)}" type="video/mp4">${p.webm ? `<source src="${esc(p.webm)}" type="video/webm">` : ""}</video><button class="ln-play" aria-label="재생"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M8 5.5v13l11-6.5z"/></svg></button></div>` : `<div class="ln-img${p.tall ? " tall" : ""}"><img src="${esc(p.img)}" alt="" loading="lazy"></div>`}${p.dots ? `<div class="ln-dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i class="s"></i><i class="xs"></i></div>` : ""}${p.counts ? `<div class="ln-act ln-cnt"><span>${I.heart}${esc(p.counts[0])}</span><span>${I.cmt}${esc(p.counts[1])}</span>${p.reposts ? `<span><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13V9a2 2 0 012-2h11"/><path d="M15 4l3 3-3 3"/><path d="M19 11v4a2 2 0 01-2 2H6"/><path d="M9 20l-3-3 3-3"/></svg>${esc(p.reposts)}</span>` : ""}<span>${I.send}${esc(p.counts[2])}</span><span class="sv">${I.save}</span></div><p><b>${esc(p.user)}</b> ${esc(p.caption)}${p.more ? ` <span class="ln-more">더보기</span>` : ""}</p><p class="d">${esc(p.when)}</p></article>` : `<div class="ln-act">${I.heart}${I.cmt}${I.send}<span class="sv">${I.save}</span></div><p><b>좋아요 ${p.likes.toLocaleString()}개</b></p><p><b>${esc(p.user)}</b> ${esc(p.caption)}</p><p class="d">댓글 ${p.comments}개 모두 보기</p><p class="d">${esc(p.when)}</p></article>`}`).join("")}</div>`;
+      ${L.feed.map((p, pi) => `<article class="ln-post"><div class="ln-ph">${p.emoji ? `<div class="av ln-emo" style="background:${esc(p.emojiBg || "#ff5a76")}"><span>${esc(p.emoji)}</span></div>` : av()}<div class="grow"><b>${esc(p.user)}</b>${p.sub ? `<span>${esc(p.sub)}</span>` : ""}</div><span class="fl">팔로우</span>${I.menu}</div>${p.video ? `<div class="ln-img ln-vid">${p.poster ? `<img class="ln-poster" src="${esc(p.poster)}" alt="">` : ""}<video poster="${esc(p.poster || "")}" playsinline webkit-playsinline loop preload="metadata"><source src="${esc(p.video)}" type="video/mp4">${p.webm ? `<source src="${esc(p.webm)}" type="video/webm">` : ""}</video><button class="ln-play" aria-label="재생"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M8 5.5v13l11-6.5z"/></svg></button></div>` : `<div class="ln-img${p.tall ? " tall" : ""}"><img src="${esc(p.img)}" alt="" loading="lazy"></div>`}${p.dots ? `<div class="ln-dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i class="s"></i><i class="xs"></i></div>` : ""}${p.counts ? `<div class="ln-act ln-cnt"><span class="ln-like${(S.gramLikes || {})[pi] ? " on" : ""}" data-like="${pi}" role="button" aria-label="좋아요">${I.heart}<em>${esc(likeCount(p.counts[0], (S.gramLikes || {})[pi]))}</em></span><span>${I.cmt}${esc(p.counts[1])}</span>${p.reposts ? `<span><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13V9a2 2 0 012-2h11"/><path d="M15 4l3 3-3 3"/><path d="M19 11v4a2 2 0 01-2 2H6"/><path d="M9 20l-3-3 3-3"/></svg>${esc(p.reposts)}</span>` : ""}<span>${I.send}${esc(p.counts[2])}</span><span class="sv">${I.save}</span></div><p><b>${esc(p.user)}</b> ${esc(p.caption)}${p.more ? ` <span class="ln-more">더보기</span>` : ""}</p><p class="d">${esc(p.when)}</p></article>` : `<div class="ln-act">${I.heart}${I.cmt}${I.send}<span class="sv">${I.save}</span></div><p><b>좋아요 ${p.likes.toLocaleString()}개</b></p><p><b>${esc(p.user)}</b> ${esc(p.caption)}</p><p class="d">댓글 ${p.comments}개 모두 보기</p><p class="d">${esc(p.when)}</p></article>`}`).join("")}</div>`;
   }
   appEl.innerHTML = body + tabs;
   appEl.querySelectorAll(".ln-tabs [data-t]").forEach(b => b.onclick = () => lensView(b.dataset.t));
+  // ♡ 누르면 빨간 하트로 채워지고 숫자 +1 (다시 누르면 취소)
+  appEl.querySelectorAll("[data-like]").forEach(el => el.onclick = () => {
+    const i = +el.dataset.like, on = !(S.gramLikes || {})[i];
+    S.gramLikes = Object.assign(S.gramLikes || {}, { [i]: on }); save();
+    el.classList.toggle("on", on); el.classList.remove("pop"); void el.offsetWidth; if (on) el.classList.add("pop");
+    el.querySelector("em").textContent = likeCount(L.feed[i].counts[0], on);
+  });
   appEl.querySelectorAll(".ln-vid").forEach(box => {
     const v = box.querySelector("video"), btn = box.querySelector(".ln-play");
     const sync = () => { btn.hidden = !v.paused; };
@@ -2798,8 +3764,9 @@ const VIEWS = {
   moment: momentView,
   messages: msgList,
   phone: () => phoneView(),
-  notes: notesView, photos: photosView, calendar: () => calView(true), settings: settingsView, clock: clockView, internet: webView, lens: () => lensView("feed")
+  notes: notesView, photos: photosView, calendar: () => calView(true), settings: settingsView, clock: clockView, internet: webView, lens: () => lensView("feed"), findmy: findView
 };
 renderHome();
 </script>
+
 </body></html>
